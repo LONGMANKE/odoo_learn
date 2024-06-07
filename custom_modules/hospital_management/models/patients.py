@@ -15,6 +15,11 @@ class HospitalPatient(models.Model):
     #  want to store to database it  store=true if we want to edit readonly= False
     capitalized_name = fields.Char(string='Capitalized Name', compute='_compute_capitalized_name', store=True)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        # for vals in vals_list:
+        #     vals['gender'] = 'female'
+        return super(HospitalPatient, self).create(vals_list)
     @api.constrains('is_child', 'age')
     def _check_child_age(self):
         for rec in self:
