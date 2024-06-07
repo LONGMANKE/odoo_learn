@@ -1,5 +1,5 @@
 from odoo import api, models, fields, _
-
+from  odoo.exceptions import ValidationError
 
 class HospitalPatient(models.Model):
     _name = "hospital.patient"
@@ -15,6 +15,11 @@ class HospitalPatient(models.Model):
     #  want to store to database it  store=true if we want to edit readonly= False
     capitalized_name = fields.Char(string='Capitalized Name', compute='_compute_capitalized_name', store=True)
 
+    @api.constrains('is_child', 'age')
+    def _check_child_age(self):
+        for rec in self:
+            if rec.is_child and rec.age == 0:
+                raise ValidationError(_("Age has to e recorded !"))
     @api.depends('name')
     def _compute_capitalized_name(self):
         for rec in self:
