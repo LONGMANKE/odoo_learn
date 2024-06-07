@@ -12,6 +12,7 @@
                         <field name="is_child"/>
                         <field name="age"/>
                         <field name="gender"/>
+                        <field name="capitalized_name"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -30,6 +31,7 @@
                 <field name="name"/>
                 <field name="age"/>
                 <field name="gender"/>
+                <field name="capitalized_name"/>
             </tree>
         </field>
     </record>
