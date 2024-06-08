@@ -17,6 +17,7 @@
                         <field name="is_child"/>
                         <field name="age"/>
                         <field name="gender"/>
+                        <field name="doctor_id" options="{'no_open': True, 'no_create': True}"/>
                         <field name="capitalized_name"/>
                     </group>
                 </sheet>
