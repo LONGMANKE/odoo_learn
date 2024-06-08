@@ -13,6 +13,7 @@
         'data/sequence.xml',
         'views/menu.xml',
         'views/patient.xml',
+        'views/doctor.xml',
     ],
     'installable': True,
     'auto-install': False,

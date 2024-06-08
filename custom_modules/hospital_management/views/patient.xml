@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record model="ir.ui.view" id="view_hospital_patient_form">
         <field name="name">hospital.patient.form</field>
         <field name="model">hospital.patient</field>
