@@ -1,7 +1,7 @@
 {
     'name': 'Hospital Management',
     'Version': '1.0.0',
-    'sequence': -100,
+    # 'sequence': -100,
     'author': 'Simon Mburu',
     'website': 'https://mburunjoroge.netlify.app/',
     'category': 'Health',
