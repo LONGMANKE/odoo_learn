@@ -1,3 +1,23 @@
+# from odoo import api, fields, models, _
+#
+#
+# class HospitalDoctor(models.Model):
+#     _name = "hospital.doctor"
+#     _inherit = 'mail.thread'
+#     _description = "Doctor Records"
+#     # _rec_name = 'ref'
+#
+#     name = fields.Char(string='Name', required=True, tracking=True)
+#     gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ('others', 'Others')],
+#                               string="Gender", tracking=True)
+#     ref = fields.Char(string="Reference", required=True)
+#
+#     @api.depends('ref', 'name')
+#     def name_get(self):
+#         res = []
+#         for record in self:
+#             res.append((record.id, f'{record.ref} - {record.name}'))
+#         return res
 from odoo import api, fields, models, _
 
 
@@ -19,4 +39,4 @@ class HospitalDoctor(models.Model):
     @api.depends('ref', 'name')
     def _compute_ref_name(self):
         for record in self:
-            record.ref_name = f'{record.ref} - {record.name}'
+            record.ref_name = f'{record.ref} {record.name}'
