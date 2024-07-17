@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-
-
         <record model="ir.ui.view" id="purchase_order_calendar">
             <field name="name">purchase.rfq.calendar</field>
             <field name="model">purchase.rfq</field>
@@ -51,7 +48,7 @@
                     <button name="action_rfq_send" invisible="state != 'sent'" string="Re-Send by Email" type="object" context="{'send_rfq':True}" data-hotkey="g"/>
                     <button name="print_quotation" string="Print RFQ" type="object" invisible="state != 'sent'" groups="base.group_user" data-hotkey="k"/>
                     <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm RFQ" id="draft_confirm" data-hotkey="q"/>
-                    <button name="action_rfq_send" invisible="state != 'purchase'" string="Send PO by Email" type="object" context="{'send_rfq':False}" data-hotkey="g"/>
+<!--                    <button name="action_rfq_send" invisible="state != 'purchase'" string="Send PO by Email" type="object" context="{'send_rfq':False}" data-hotkey="g"/>-->
                     <button name="confirm_reminder_mail" string="Confirm Receipt Date" type="object" invisible="state not in ('purchase', 'done') or mail_reminder_confirmed or not date_planned" groups="base.group_no_one" data-hotkey="o"/>
                     <button name="action_create_invoice" string="Create Bill" type="object" context="{'create_bill':True}" invisible="state not in ('purchase', 'done') or invoice_status not in ('no', 'invoiced') or not order_line" data-hotkey="w"/>
                     <button name="button_draft" invisible="state != 'cancel'" string="Set to Draft" type="object" data-hotkey="o"/>
@@ -349,7 +346,7 @@
                     <filter name="my_purchases" string="My Purchases" domain="[('user_id', '=', uid)]"/>
                     <filter string="Starred" name="starred" domain="[('priority', '=', '1')]"/>
                     <separator/>
-                    <filter name="draft" string="RFQs" domain="[('state', 'in', ('draft', 'sent', 'to approve'))]"/>
+                    <filter name="draft" string="RFQs" domain="[('state', 'in', ('draft', 'sent', 'to approve', 'purchase', 'done'))]"/>
                     <separator/>
                     <filter name="approved" string="Purchase Orders" domain="[('state', 'in', ('purchase', 'done'))]"/>
                     <filter name="to_approve" string="To Approve" domain="[('state', '=', 'to approve')]"/>
@@ -596,7 +593,7 @@
                 </activity>
             </field>
         </record>
-
+<!--if blank-->
         <record id="purchase_rfq" model="ir.actions.act_window">
             <field name="name">Requests for Quotation</field>
             <field name="res_model">purchase.rfq</field>
@@ -615,25 +612,6 @@
             </field>
         </record>
 
-        <record id="purchase_form_action" model="ir.actions.act_window">
-            <field name="name">Purchase Orders</field>
-            <field name="res_model">purchase.rfq</field>
-            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('purchase.purchase_order_view_tree')}),
-                (0, 0, {'view_mode': 'kanban', 'view_id': ref('purchase.purchase_order_view_kanban_without_dashboard')}),
-            ]"/>
-            <field name="domain">[('state','in',('purchase', 'done'))]</field>
-            <field name="search_view_id" ref="purchase_order_view_search"/>
-            <field name="context">{}</field>
-            <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
-                No purchase order found. Let's create one!
-              </p><p>
-                Once you ordered your products to your supplier, confirm your request for quotation and it will turn into a purchase order.
-              </p>
-            </field>
-        </record>
 
         <record id="purchase_order_line_tree" model="ir.ui.view">
             <field name="name">purchase.rfq.line.tree</field>
