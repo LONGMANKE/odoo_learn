@@ -1,101 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-        <!-- Top menu item -->
-        <menuitem name="Purchase"
-            id="menu_purchase_root"
-            groups="group_purchase_manager,group_purchase_user"
-            web_icon="purchase,static/description/icon.png"
-            sequence="135"/>
 
-        <menuitem id="menu_procurement_management" name="Orders"
-            parent="menu_purchase_root" sequence="5" />
-
-        <!--Supplier menu-->
-        <menuitem id="menu_procurement_management_supplier_name" name="Vendors"
-            parent="menu_procurement_management"
-            action="account.res_partner_action_supplier" sequence="15"/>
-
-        <menuitem id="menu_purchase_config" name="Configuration" parent="menu_purchase_root" sequence="100" groups="group_purchase_manager"/>
-
-        <menuitem
-           action="product.product_supplierinfo_type_action" id="menu_product_pricelist_action2_purchase"
-           parent="menu_purchase_config" sequence="1"/>
-
-        <menuitem
-            id="menu_product_in_config_purchase" name="Products"
-            parent="menu_purchase_config" sequence="30"/>
-
-        <record model="ir.ui.menu" id="menu_product_in_config_purchase">
-            <field name="groups_id" eval="False"/>
-        </record>
-
-        <menuitem id="menu_product_attribute_action"
-            action="product.attribute_action" name="Product Attributes"
-            parent="purchase.menu_product_in_config_purchase"  groups="product.group_product_variant" sequence="1"/>
-
-        <menuitem
-            action="product.product_category_action_form" id="menu_product_category_config_purchase"
-            parent="purchase.menu_product_in_config_purchase" sequence="3" />
-
-         <menuitem
-            id="menu_unit_of_measure_in_config_purchase" name="Units of Measures"
-            parent="menu_purchase_config" sequence="40" groups="uom.group_uom" />
-
-        <menuitem
-              action="uom.product_uom_form_action" id="menu_purchase_uom_form_action" active="False"
-              parent="purchase.menu_unit_of_measure_in_config_purchase" sequence="5" groups="base.group_no_one"/>
-
-        <menuitem
-             action="uom.product_uom_categ_form_action" id="menu_purchase_uom_categ_form_action"
-             parent="purchase.menu_unit_of_measure_in_config_purchase" sequence="10" groups="uom.group_uom"/>
-
-    <!-- Products Control Menu -->
-    <menuitem id="menu_purchase_products" name="Products" parent="purchase.menu_purchase_root" sequence="5"/>
-
-    <record id="product_normal_action_puchased" model="ir.actions.act_window">
-        <field name="name">Products</field>
-        <field name="res_model">product.template</field>
-        <field name="view_mode">kanban,tree,form,activity</field>
-        <field name="context">{"search_default_filter_to_purchase":1, "purchase_product_template": 1}</field>
-        <field name="search_view_id" ref="product.product_template_search_view"/>
-        <field name="view_id" eval="False"/> <!-- Force empty -->
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            No product found. Let's create one!
-          </p><p>
-            You must define a product for everything you sell or purchase,
-            whether it's a storable product, a consumable or a service.
-          </p>
-        </field>
-    </record>
-
-      <!-- Product menu-->
-      <menuitem name="Products" id="menu_procurement_partner_contact_form" action="product_normal_action_puchased"
-          parent="menu_purchase_products" sequence="20"/>
-
-        <record id="product_product_action" model="ir.actions.act_window">
-            <field name="name">Product Variants</field>
-            <field name="res_model">product.product</field>
-            <field name="view_mode">tree,kanban,form,activity</field>
-            <field name="search_view_id" ref="product.product_search_form_view"/>
-            <field name="context">{"search_default_filter_to_purchase": 1}</field>
-            <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
-                Create a new product variant
-              </p><p>
-                You must define a product for everything you sell or purchase,
-                whether it's a storable product, a consumable or a service.
-              </p>
-            </field>
-        </record>
-
-        <menuitem id="product_product_menu" name="Product Variants" action="product_product_action"
-            parent="menu_purchase_products" sequence="21" groups="product.group_product_variant"/>
 
         <record model="ir.ui.view" id="purchase_order_calendar">
-            <field name="name">purchase.order.calendar</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.calendar</field>
+            <field name="model">purchase.rfq</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
                 <calendar string="Calendar View" date_start="date_calendar_start" color="partner_id" hide_time="true" event_limit="5" create="false">
@@ -107,8 +17,8 @@
             </field>
         </record>
         <record model="ir.ui.view" id="purchase_order_pivot">
-            <field name="name">purchase.order.pivot</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.pivot</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <pivot string="Purchase Order" display_quantity="1" sample="1">
                     <field name="partner_id" type="row"/>
@@ -117,8 +27,8 @@
             </field>
         </record>
         <record model="ir.ui.view" id="purchase_order_graph">
-            <field name="name">purchase.order.graph</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.graph</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <graph string="Purchase Order" sample="1">
                     <field name="partner_id"/>
@@ -128,19 +38,19 @@
         </record>
 
         <record id="purchase_order_form" model="ir.ui.view">
-            <field name="name">purchase.order.form</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.form</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
-                <form string="Purchase Order" class="o_purchase_order">
+                <form string="Purchase Order" class="o_purchase_rfq">
                 <header>
                     <button name="action_rfq_send" invisible="state != 'draft'" string="Send by Email" type="object" context="{'send_rfq':True}" class="oe_highlight" data-hotkey="g"/>
                     <button name="print_quotation" string="Print RFQ" type="object" invisible="state != 'draft'" class="oe_highlight" groups="base.group_user" data-hotkey="k"/>
-                    <button name="button_confirm" type="object" invisible="state != 'sent'" string="Confirm Order" context="{'validate_analytic': True}" class="oe_highlight" id="bid_confirm" data-hotkey="q"/>
+                    <button name="button_confirm" type="object" invisible="state != 'sent'" string="Confirm RFQ" context="{'validate_analytic': True}" class="oe_highlight" id="bid_confirm" data-hotkey="q"/>
                     <button name="button_approve" type="object" invisible="state != 'to approve'" string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager" data-hotkey="z"/>
                     <button name="action_create_invoice" string="Create Bill" type="object" class="oe_highlight" context="{'create_bill':True}" invisible="state not in ('purchase', 'done') or invoice_status in ('no', 'invoiced')" data-hotkey="w"/>
                     <button name="action_rfq_send" invisible="state != 'sent'" string="Re-Send by Email" type="object" context="{'send_rfq':True}" data-hotkey="g"/>
                     <button name="print_quotation" string="Print RFQ" type="object" invisible="state != 'sent'" groups="base.group_user" data-hotkey="k"/>
-                    <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm Order" id="draft_confirm" data-hotkey="q"/>
+                    <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm RFQ" id="draft_confirm" data-hotkey="q"/>
                     <button name="action_rfq_send" invisible="state != 'purchase'" string="Send PO by Email" type="object" context="{'send_rfq':False}" data-hotkey="g"/>
                     <button name="confirm_reminder_mail" string="Confirm Receipt Date" type="object" invisible="state not in ('purchase', 'done') or mail_reminder_confirmed or not date_planned" groups="base.group_no_one" data-hotkey="o"/>
                     <button name="action_create_invoice" string="Create Bill" type="object" context="{'create_bill':True}" invisible="state not in ('purchase', 'done') or invoice_status not in ('no', 'invoiced') or not order_line" data-hotkey="w"/>
@@ -160,8 +70,9 @@
                         </button>
                     </div>
                     <div class="oe_title">
-                        <span class="o_form_label" invisible="state not in ('draft', 'sent')">Request for Quotation </span>
-                        <span class="o_form_label" invisible="state in ('draft', 'sent')">Purchase Order </span>
+<!--                        <span class="o_form_label" invisible="state not in ('draft', 'sent')">Request for Quotation </span>-->
+<!--                        <span class="o_form_label" invisible="state in ('draft', 'sent')">Purchase Order </span>-->
+                        <span class="o_form_label">Request for Quotation </span>
                         <h1 class="d-flex">
                             <field name="priority" widget="priority" class="me-3"/>
                             <field name="name" readonly="1"/>
@@ -242,7 +153,7 @@
                                     <field name="analytic_distribution" widget="analytic_distribution"
                                            optional="hide"
                                            groups="analytic.group_analytic_accounting"
-                                           options="{'product_field': 'product_id', 'business_domain': 'purchase_order', 'amount_field': 'price_subtotal'}"/>
+                                           options="{'product_field': 'product_id', 'business_domain': 'purchase_rfq', 'amount_field': 'price_subtotal'}"/>
                                     <field name="product_qty"/>
                                     <field name="qty_received_manual" column_invisible="True"/>
                                     <field name="qty_received_method" column_invisible="True"/>
@@ -297,7 +208,7 @@
                                                 <field name="date_planned" widget="date" required="not display_type"/>
                                                 <field name="analytic_distribution" widget="analytic_distribution"
                                                        groups="analytic.group_analytic_accounting"
-                                                       options="{'product_field': 'product_id', 'business_domain': 'purchase_order'}"/>
+                                                       options="{'product_field': 'product_id', 'business_domain': 'purchase_rfq'}"/>
                                             </group>
                                             <group>
                                             <notebook colspan="4">
@@ -426,7 +337,7 @@
 
        <record id="view_purchase_order_filter" model="ir.ui.view">
             <field name="name">request.quotation.select</field>
-            <field name="model">purchase.order</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <search string="Search Purchase Order">
                     <field name="name" string="Order"
@@ -468,8 +379,8 @@
         </record>
 
         <record id="purchase_order_view_search" model="ir.ui.view">
-            <field name="name">purchase.order.select</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.select</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <search string="Search Purchase Order">
                     <field name="name" string="Order"
@@ -508,8 +419,8 @@
 
         <!-- Purchase Orders Kanban View  -->
         <record model="ir.ui.view" id="view_purchase_order_kanban">
-            <field name="name">purchase.order.kanban</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.kanban</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <kanban class="o_kanban_mobile" js_class="purchase_dashboard_kanban" sample="1" quick_create="false">
                     <field name="name"/>
@@ -547,8 +458,8 @@
         </record>
 
         <record id="purchase_order_view_kanban_without_dashboard" model="ir.ui.view">
-            <field name="name">purchase.order.view.kanban.without.dashboard</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.view.kanban.without.dashboard</field>
+            <field name="model">purchase.rfq</field>
             <field name="inherit_id" ref="purchase.view_purchase_order_kanban"/>
             <field name="mode">primary</field>
             <field name="priority">20</field>
@@ -560,8 +471,8 @@
         </record>
 
         <record id="purchase_order_tree" model="ir.ui.view">
-            <field name="name">purchase.order.tree</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.tree</field>
+            <field name="model">purchase.rfq</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <tree string="Purchase Order"
@@ -590,13 +501,13 @@
         <!-- Unfortunately we want the purchase kpis table to only show up in some list views,
              so we have to duplicate code to support both view versions -->
         <record id="purchase_order_kpis_tree" model="ir.ui.view">
-            <field name="name">purchase.order.inherit.purchase.order.tree</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.inherit.purchase.rfq.tree</field>
+            <field name="model">purchase.rfq</field>
             <field name="priority" eval="10"/>
             <field name="arch" type="xml">
                 <tree string="Purchase Order" decoration-info="state in ['draft', 'sent']"
                 decoration-muted="state == 'cancel'"
-                class="o_purchase_order" js_class="purchase_dashboard_list" sample="1">
+                class="o_purchase_rfq" js_class="purchase_dashboard_list" sample="1">
                     <header>
                         <button name="action_create_invoice" type="object" string="Create Bills"/>
                     </header>
@@ -627,13 +538,13 @@
         </record>
 
         <record id="purchase_order_view_tree" model="ir.ui.view">
-            <field name="name">purchase.order.view.tree</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.view.tree</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <tree decoration-muted="state == 'cancel'"
                     decoration-info="invoice_status == 'to invoice'"
                     string="Purchase Order"
-                    class="o_purchase_order"
+                    class="o_purchase_rfq"
                     sample="1">
                     <header>
                         <button name="action_create_invoice" type="object" string="Create Bills"/>
@@ -660,8 +571,8 @@
         </record>
 
         <record id="purchase_order_view_activity" model="ir.ui.view">
-            <field name="name">purchase.order.activity</field>
-            <field name="model">purchase.order</field>
+            <field name="name">purchase.rfq.activity</field>
+            <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
                 <activity string="Purchase Order">
                     <field name="currency_id"/>
@@ -688,7 +599,7 @@
 
         <record id="purchase_rfq" model="ir.actions.act_window">
             <field name="name">Requests for Quotation</field>
-            <field name="res_model">purchase.order</field>
+            <field name="res_model">purchase.rfq</field>
             <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
             <field name="view_id" ref="purchase_order_kpis_tree"/>
             <field name="domain">[]</field>
@@ -703,13 +614,10 @@
               </p>
             </field>
         </record>
-<!--        <menuitem action="purchase_rfq" id="menu_purchase_rfq"-->
-<!--            parent="menu_procurement_management"-->
-<!--            sequence="0"/>-->
 
         <record id="purchase_form_action" model="ir.actions.act_window">
             <field name="name">Purchase Orders</field>
-            <field name="res_model">purchase.order</field>
+            <field name="res_model">purchase.rfq</field>
             <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('purchase.purchase_order_view_tree')}),
@@ -726,11 +634,10 @@
               </p>
             </field>
         </record>
-        <menuitem action="purchase_form_action" id="menu_purchase_form_action" parent="menu_procurement_management" sequence="6"/>
 
         <record id="purchase_order_line_tree" model="ir.ui.view">
-            <field name="name">purchase.order.line.tree</field>
-            <field name="model">purchase.order.line</field>
+            <field name="name">purchase.rfq.line.tree</field>
+            <field name="model">purchase.rfq.line</field>
             <field name="arch" type="xml">
                 <tree string="Purchase Order Lines" create="false">
                     <field name="order_id"/>
@@ -748,8 +655,8 @@
         </record>
 
         <record id="purchase_order_line_form2" model="ir.ui.view">
-            <field name="name">purchase.order.line.form2</field>
-            <field name="model">purchase.order.line</field>
+            <field name="name">purchase.rfq.line.form2</field>
+            <field name="model">purchase.rfq.line</field>
             <field name="priority" eval="20"/>
             <field name="arch" type="xml">
                 <form string="Purchase Order Line" create="false">
@@ -779,7 +686,7 @@
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                                 <field name="analytic_distribution" widget="analytic_distribution"
                                        groups="analytic.group_analytic_accounting"
-                                       options="{'product_field': 'product_id', 'business_domain': 'purchase_order'}"/>
+                                       options="{'product_field': 'product_id', 'business_domain': 'purchase_rfq'}"/>
                             </group>
                         </group>
                         <field name="name"/>
@@ -789,28 +696,11 @@
                 </form>
             </field>
         </record>
-          <record id="purchase_order_line_search" model="ir.ui.view">
-            <field name="name">purchase.order.line.search</field>
-            <field name="model">purchase.order.line</field>
-            <field name="arch" type="xml">
-                <search string="Search Purchase Order">
-                    <field name="order_id"/>
-                    <field name="product_id"/>
-                    <field name="partner_id" string="Vendor"/>
-                    <filter name="hide_cancelled" string="Hide cancelled lines" domain="[('state', '!=', 'cancel')]"/>
-                    <group expand="0" string="Group By">
-                        <filter name="groupby_supplier" string="Vendor" domain="[]" context="{'group_by' : 'partner_id'}" />
-                        <filter name="groupby_product" string="Product" domain="[]" context="{'group_by' : 'product_id'}" />
-                        <filter string="Order Reference" name="order_reference" domain="[]" context="{'group_by' :'order_id'}"/>
-                        <filter string="Status" name="status" domain="[]" context="{'group_by' : 'state'}" />
-                    </group>
-                </search>
-            </field>
-        </record>
+
 
     <record id="purchase_history_tree" model="ir.ui.view">
         <field name="name">purchase.history.tree</field>
-        <field name="model">purchase.order.line</field>
+        <field name="model">purchase.rfq.line</field>
         <field name="arch" type="xml">
             <tree create="false" default_order="order_id asc">
                 <field name="order_id" widget="many2one"/>
@@ -823,7 +713,7 @@
     </record>
 
     <record id="action_purchase_history" model="ir.actions.act_window">
-        <field name="res_model">purchase.order.line</field>
+        <field name="res_model">purchase.rfq</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="purchase.purchase_history_tree"/>
         <field name="context">{}</field>
@@ -867,14 +757,17 @@
         <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
         <field name="target">new</field>
     </record>
-
+<menuitem parent="menu_procurement_management" action="purchase_rfq" id="menu_purchase_rfq"/>
     <record id="action_rfq_form" model="ir.actions.act_window">
         <field name="name">Requests for Quotation</field>
-        <field name="res_model">purchase.order</field>
+        <field name="res_model">purchase.rfq</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="purchase.purchase_order_form"/>
         <field name="search_view_id" ref="view_purchase_order_filter"/>
         <field name="target">main</field>
     </record>
-
+<menuitem action="purchase_form_action" id="menu_purchase_form_action" parent="menu_procurement_management" sequence="6"/>
+ <menuitem action="purchase_rfq" id="menu_purchase_rfq"
+            parent="menu_procurement_management"
+            sequence="0"/>
 </odoo>
