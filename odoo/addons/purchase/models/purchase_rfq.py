@@ -474,10 +474,51 @@ class PurchaseOrder(models.Model):
         self.write({'state': "sent"})
         return self.env.ref('purchase.report_purchase_quotation').report_action(self)
 
+    # def button_approve(self, force=False):
+    #     self = self.filtered(lambda order: order._approval_allowed())
+    #     self.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
+    #     self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
+    #     return {}
     def button_approve(self, force=False):
         self = self.filtered(lambda order: order._approval_allowed())
-        self.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
+
+        for rfq in self:
+            # Create the purchase order record with the same details as the RFQ
+            order_line_vals = []
+            for line in rfq.order_line:
+                order_line_vals.append((0, 0, {
+                    'product_id': line.product_id.id,
+                    'name': line.name,
+                    'product_qty': line.product_qty,
+                    'product_uom': line.product_uom.id,
+                    'price_unit': line.price_unit,
+                    'date_planned': line.date_planned,
+                    'taxes_id': [(6, 0, line.taxes_id.ids)],
+                }))
+
+            purchase_order_vals = {
+                'name': self.env['ir.sequence'].next_by_code('purchase.order') or '/',
+                'partner_id': rfq.partner_id.id,
+                'date_order': rfq.date_order,
+                'origin': rfq.origin,
+                'dest_address_id': rfq.dest_address_id.id,
+                'currency_id': rfq.currency_id.id,
+                'partner_ref': rfq.partner_ref,
+                'amount_untaxed': rfq.amount_untaxed,
+                'amount_tax': rfq.amount_tax,
+                'amount_total': rfq.amount_total,
+                'order_line': order_line_vals,
+                'state': 'purchase',
+                'date_approve': fields.Datetime.now(),
+            }
+            self.env['purchase.order'].create(purchase_order_vals)
+
+            # Update the state and approval date of the RFQ
+            rfq.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
+
+        # Handle locking logic if applicable
         self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
+
         return {}
 
     def button_draft(self):
@@ -491,14 +532,50 @@ class PurchaseOrder(models.Model):
             order.order_line._validate_analytic_distribution()
             order._add_supplier_to_product()
             # Deal with double validation process
-            if order._approval_allowed():
-                order.button_approve()
-            else:
-                order.write({'state': 'to approve'})
+            # if order._approval_allowed():
+            #     order.button_approve()
+            # else:
+            order.write({'state': 'to approve'})
             if order.partner_id not in order.message_partner_ids:
                 order.message_subscribe([order.partner_id.id])
         return True
-
+    # def button_confirm(self):
+    #     NewPurchaseOrder = self.env['purchase.order']
+    #     for rfq in self:
+    #         if rfq.state not in ['draft', 'sent']:
+    #             continue
+    #
+    #         order_line_vals = []
+    #         for line in rfq.order_line:
+    #             order_line_vals.append((0, 0, {
+    #                 'product_id': line.product_id.id,
+    #                 'name': line.name,
+    #                 'product_qty': line.product_qty,
+    #                 'product_uom': line.product_uom.id,
+    #                 'price_unit': line.price_unit,
+    #                 'date_planned': line.date_planned,
+    #                 'taxes_id': [(6, 0, line.taxes_id.ids)],
+    #             }))
+    #
+    #         purchase_order_vals = {
+    #             'partner_id': rfq.partner_id.id,
+    #             'date_order': rfq.date_order,
+    #             'origin': rfq.origin,
+    #             'dest_address_id': rfq.dest_address_id.id,
+    #             'currency_id': rfq.currency_id.id,
+    #             'date_approve': rfq.date_approve,
+    #             'partner_ref': rfq.partner_ref,
+    #             'amount_untaxed': rfq.amount_untaxed,
+    #             'amount_tax': rfq.amount_tax,
+    #             'amount_total': rfq.amount_total,
+    #             'order_line': order_line_vals,
+    #             'state': 'to approve',
+    #             # Add other fields relevant to the purchase order
+    #         }
+    #         NewPurchaseOrder.create(purchase_order_vals)
+    #         rfq.state = 'to approve'
+    #
+    #     return True
     def button_cancel(self):
         for order in self:
             for inv in order.invoice_ids:
