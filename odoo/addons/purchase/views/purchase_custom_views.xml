@@ -332,7 +332,7 @@
             </field>
         </record>
 
-       <record id="view_purchase_order_filter" model="ir.ui.view">
+       <record id="view_purchase_order_filter1" model="ir.ui.view">
             <field name="name">request.quotation.select</field>
             <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
@@ -600,7 +600,7 @@
             <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
             <field name="view_id" ref="purchase_order_kpis_tree1"/>
             <field name="domain">[]</field>
-            <field name="search_view_id" ref="view_purchase_order_filter"/>
+            <field name="search_view_id" ref="view_purchase_order_filter1"/>
             <field name="context">{'quotation_only': True}</field>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
@@ -741,7 +741,7 @@
         <field name="res_model">purchase.rfq</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="purchase.purchase_order_form1"/>
-        <field name="search_view_id" ref="view_purchase_order_filter"/>
+        <field name="search_view_id" ref="view_purchase_order_filter1"/>
         <field name="target">main</field>
     </record>
  <menuitem action="purchase_rfq" id="menu_purchase_rfq" parent="menu_procurement_management" sequence="0"/>
