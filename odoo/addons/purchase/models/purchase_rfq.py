@@ -148,7 +148,7 @@ class PurchaseOrder(models.Model):
 
     receipt_reminder_email = fields.Boolean('Receipt Reminder Email', compute='_compute_receipt_reminder_email')
     reminder_date_before_receipt = fields.Integer('Days Before Receipt', compute='_compute_receipt_reminder_email')
-
+    po_created = fields.Char(string='Purchase Order Created')
     @api.constrains('company_id', 'order_line')
     def _check_order_line_company_id(self):
         for order in self:
@@ -483,6 +483,7 @@ class PurchaseOrder(models.Model):
         self = self.filtered(lambda order: order._approval_allowed())
 
         for rfq in self:
+            purchase_order_name = self.env['ir.sequence'].next_by_code('purchase.order') or '/'
             # Create the purchase order record with the same details as the RFQ
             order_line_vals = []
             for line in rfq.order_line:
@@ -497,10 +498,10 @@ class PurchaseOrder(models.Model):
                 }))
 
             purchase_order_vals = {
-                'name': self.env['ir.sequence'].next_by_code('purchase.order') or '/',
+                'name': purchase_order_name,
                 'partner_id': rfq.partner_id.id,
                 'date_order': rfq.date_order,
-                'origin': rfq.origin,
+                'origin': rfq.name,
                 'dest_address_id': rfq.dest_address_id.id,
                 'currency_id': rfq.currency_id.id,
                 'partner_ref': rfq.partner_ref,
@@ -512,7 +513,7 @@ class PurchaseOrder(models.Model):
                 'date_approve': fields.Datetime.now(),
             }
             self.env['purchase.order'].create(purchase_order_vals)
-
+            rfq.write({'po_created': purchase_order_name})
             # Update the state and approval date of the RFQ
             rfq.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
 

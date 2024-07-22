@@ -77,9 +77,8 @@ class PurchaseOrder(models.Model):
     name = fields.Char('Order Reference', required=True, index='trigram', copy=False, default='New')
     priority = fields.Selection(
         [('0', 'Normal'), ('1', 'Urgent')], 'Priority', default='0', index=True)
-    origin = fields.Char('Source Document', copy=False,
-        help="Reference of the document that generated this purchase order "
-             "request (e.g. a sales order)")
+    origin = fields.Char('Source RFQ', copy=False,
+        help="Reference of the RFQ that generated this purchase order")
     partner_ref = fields.Char('Vendor Reference', copy=False,
         help="Reference of the sales order or bid sent by the vendor. "
              "It's used to do the matching when you receive the "
@@ -480,8 +479,35 @@ class PurchaseOrder(models.Model):
         self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
         return {}
 
+    # def button_draft(self):
+    #     self.write({'state': 'draft'})
+    #     return {}
     def button_draft(self):
-        self.write({'state': 'draft'})
+        rfq_id = False
+        for po in self:
+            # Check if the origin field has the reference to the RFQ
+            if po.origin:
+                rfq = self.env['purchase.rfq'].search([('name', '=', po.origin)], limit=1)
+                if rfq:
+                    # Set the state of the RFQ to 'draft'
+                    rfq.write({'state': 'draft'})
+                    rfq_id = rfq.id
+
+            # Delete the current Purchase Order record
+            po.unlink()
+
+        if rfq_id:
+            # Return an action to open the RFQ form view
+            action = {
+                'type': 'ir.actions.act_window',
+                'name': 'Request for Quotation',
+                'res_model': 'purchase.rfq',
+                'view_mode': 'form',
+                'res_id': rfq_id,
+                'target': 'current',
+            }
+            return action
+
         return {}
 
     def button_confirm(self):
