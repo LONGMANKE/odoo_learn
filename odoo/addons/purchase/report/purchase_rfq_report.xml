@@ -68,14 +68,5 @@
     </t>
 </template>
 
-    <!-- report action -->
-    <record id="report_purchase_rfq_action" model="ir.actions.report">
-        <field name="name">RFQ Report</field>
-        <field name="model">purchase.rfq</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">purchase.report_purchase_rfq</field>
-        <field name="report_file">purchase.report_purchase_rfq</field>
-        <field name="binding_model_id" ref="purchase.model_purchase_rfq"/>
-        <field name="binding_type">report</field>
-    </record>
+
 </odoo>
