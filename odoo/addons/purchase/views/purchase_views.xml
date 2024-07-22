@@ -173,6 +173,7 @@
                                 placeholder="Name, TIN, Email, or Reference"
                              readonly="state in ['cancel', 'done', 'purchase']"/>
                             <field name="partner_ref"/>
+                            <field name="origin"/>
                             <field name="currency_id" groups="base.group_multi_currency" force_save="1" readonly="state in ['cancel', 'done', 'purchase']"/>
                             <field name="id" invisible="1"/>
                             <field name="company_id" invisible="1" readonly="state in ['cancel', 'done', 'purchase']"/>

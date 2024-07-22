@@ -148,7 +148,7 @@ class PurchaseOrder(models.Model):
 
     receipt_reminder_email = fields.Boolean('Receipt Reminder Email', compute='_compute_receipt_reminder_email')
     reminder_date_before_receipt = fields.Integer('Days Before Receipt', compute='_compute_receipt_reminder_email')
-    po_created = fields.Char(string='Purchase Order Created')
+    po_created = fields.Char(string='PO Created')
     @api.constrains('company_id', 'order_line')
     def _check_order_line_company_id(self):
         for order in self:
@@ -512,19 +512,43 @@ class PurchaseOrder(models.Model):
                 'state': 'purchase',
                 'date_approve': fields.Datetime.now(),
             }
-            self.env['purchase.order'].create(purchase_order_vals)
+            new_po = self.env['purchase.order'].create(purchase_order_vals)
             rfq.write({'po_created': purchase_order_name})
             # Update the state and approval date of the RFQ
             rfq.write({'state': 'purchase', 'date_approve': fields.Datetime.now()})
 
         # Handle locking logic if applicable
         self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
-
+        # Return an action to open the newly created PO form view
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Purchase Order',
+            'res_model': 'purchase.order',
+            'view_mode': 'form',
+            'res_id': new_po.id,
+            'target': 'current',
+        }
+        return action
         return {}
 
     def button_draft(self):
-        self.write({'state': 'draft'})
-        return {}
+        PurchaseOrder = self.env['purchase.order']
+
+        for rfq in self:
+            if rfq.po_created:
+                # Find the corresponding Purchase Order
+                po = PurchaseOrder.search([('name', '=', rfq.po_created)], limit=1)
+                if po:
+                    # Change the state of the PO to draft and then delete it
+                    po.write({'state': 'cancel'})
+                    # po.write({'state': 'draft'})
+                    po.unlink()
+
+            # Set the state of the RFQ to draft
+            rfq.write({'state': 'draft'})
+            rfq.write({'po_created': ''})
+
+        return True
 
     def button_confirm(self):
         for order in self:

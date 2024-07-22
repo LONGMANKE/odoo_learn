@@ -491,6 +491,7 @@ class PurchaseOrder(models.Model):
                 if rfq:
                     # Set the state of the RFQ to 'draft'
                     rfq.write({'state': 'draft'})
+                    rfq.write({'po_created': ''})
                     rfq_id = rfq.id
 
             # Delete the current Purchase Order record
