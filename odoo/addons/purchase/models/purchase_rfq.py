@@ -470,9 +470,9 @@ class PurchaseOrder(models.Model):
             'context': ctx,
         }
 
-    def print_quotation(self):
+    def action_print_quotation(self):
         self.write({'state': "sent"})
-        return self.env.ref('purchase.report_purchase_quotation').report_action(self)
+        return self.env.ref('purchase.report_purchase_rfq_action').report_action(self)
 
     # def button_approve(self, force=False):
     #     self = self.filtered(lambda order: order._approval_allowed())
