@@ -27,7 +27,6 @@
         'data/mail_template_data.xml',
         'views/portal_templates.xml',
         'report/purchase_order_templates.xml',
-        'report/purchase_rfq_report.xml',
         'report/purchase_quotation_templates.xml',
         'views/product_packaging_views.xml',
         'views/analytic_account_views.xml',
