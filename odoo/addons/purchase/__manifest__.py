@@ -32,6 +32,7 @@
         'views/product_packaging_views.xml',
         'views/analytic_account_views.xml',
         'views/purchase_custom_views.xml',
+        'data/mail_template_rfq_data.xml',
     ],
     'demo': [
         'data/purchase_demo.xml',

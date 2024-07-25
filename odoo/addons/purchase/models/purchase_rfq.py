@@ -430,7 +430,7 @@ class PurchaseOrder(models.Model):
         ir_model_data = self.env['ir.model.data']
         try:
             if self.env.context.get('send_rfq', False):
-                template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase')[1]
+                template_id = ir_model_data._xmlid_lookup('purchase.email_template_rfq_edi_purchase')[1]
             else:
                 template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase_done')[1]
         except ValueError:
