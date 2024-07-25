@@ -76,7 +76,8 @@ class PurchaseOrderLine(models.Model):
     display_type = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
-
+    move_ids = fields.Char(string='Move ID')
+    move_dest_ids = fields.Char(string='Move dest ID')
     _sql_constraints = [
         ('accountable_required_fields',
             "CHECK(display_type IS NOT NULL OR (product_id IS NOT NULL AND product_uom IS NOT NULL AND date_planned IS NOT NULL))",

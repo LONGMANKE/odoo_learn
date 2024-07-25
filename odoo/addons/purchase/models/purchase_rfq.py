@@ -149,7 +149,9 @@ class PurchaseOrder(models.Model):
     receipt_reminder_email = fields.Boolean('Receipt Reminder Email', compute='_compute_receipt_reminder_email')
     reminder_date_before_receipt = fields.Integer('Days Before Receipt', compute='_compute_receipt_reminder_email')
     po_created = fields.Char(string='PO Created')
-    @api.constrains('company_id', 'order_line')
+    picking_type_id = fields.Char(string='Picking type ID')
+    group_id = fields.Char(string='Group ID')
+
     def _check_order_line_company_id(self):
         for order in self:
             invalid_companies = order.order_line.product_id.company_id.filtered(
@@ -470,9 +472,9 @@ class PurchaseOrder(models.Model):
             'context': ctx,
         }
 
-    def print_quotation(self):
+    def action_print_quotation(self):
         self.write({'state': "sent"})
-        return self.env.ref('purchase.report_purchase_quotation').report_action(self)
+        return self.env.ref('purchase.report_purchase_rfq_action').report_action(self)
 
     # def button_approve(self, force=False):
     #     self = self.filtered(lambda order: order._approval_allowed())

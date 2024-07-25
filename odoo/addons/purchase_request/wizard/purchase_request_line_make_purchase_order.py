@@ -25,8 +25,8 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         string="Items",
     )
     purchase_order_id = fields.Many2one(
-        comodel_name="purchase.order",
-        string="Purchase Order",
+        comodel_name="purchase.rfq",
+        string="RFQ",
         domain=[("state", "=", "draft")],
     )
     sync_data_planned = fields.Boolean(
@@ -219,8 +219,8 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
     def make_purchase_order(self):
         res = []
-        purchase_obj = self.env["purchase.order"]
-        po_line_obj = self.env["purchase.order.line"]
+        purchase_obj = self.env["purchase.rfq"]
+        po_line_obj = self.env["purchase.rfq.line"]
         pr_line_obj = self.env["purchase.request.line"]
         user_tz = pytz.timezone(self.env.user.tz or "UTC")
         purchase = False
@@ -301,7 +301,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "domain": [("id", "in", res)],
             "name": _("RFQ"),
             "view_mode": "tree,form",
-            "res_model": "purchase.order",
+            "res_model": "purchase.rfq",
             "view_id": False,
             "context": False,
             "type": "ir.actions.act_window",
