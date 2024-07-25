@@ -8,18 +8,18 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Create RFQ">
-                <separator string="Existing RFQ to update:" />
-                <newline />
-                <group>
-                    <field
-                        name="purchase_order_id"
-                        domain="[('partner_id', '=', supplier_id)]"
-                    />
-                    <field name="sync_data_planned" />
-                </group>
-                <newline />
-                <separator string="New PO details:" />
-                <newline />
+<!--                <separator string="Existing RFQ to update:" />-->
+<!--                <newline />-->
+<!--                <group>-->
+<!--                    <field-->
+<!--                        name="purchase_order_id"-->
+<!--                        domain="[('partner_id', '=', supplier_id)]"-->
+<!--                    />-->
+<!--                    <field name="sync_data_planned" />-->
+<!--                </group>-->
+<!--                <newline />-->
+<!--                <separator string="NEW RFQ details:" />-->
+<!--                <newline />-->
                 <group>
                     <field name="supplier_id" />
                 </group>
