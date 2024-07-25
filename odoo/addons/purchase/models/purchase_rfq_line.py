@@ -15,6 +15,8 @@ class PurchaseOrderLine(models.Model):
     _description = 'Purchase Order Line'
     _order = 'order_id, sequence, id'
 
+
+
     name = fields.Text(
         string='Description', required=True, compute='_compute_price_unit_and_date_planned_and_name', store=True, readonly=False)
     sequence = fields.Integer(string='Sequence', default=10)
@@ -44,7 +46,7 @@ class PurchaseOrderLine(models.Model):
     price_total = fields.Monetary(compute='_compute_amount', string='Total', store=True)
     price_tax = fields.Float(compute='_compute_amount', string='Tax', store=True)
 
-    order_id = fields.Many2one('purchase.rfq', string='Order Reference', index=True, required=True, ondelete='cascade')
+    order_id = fields.Many2one('purchase.rfq', string='RFQ Reference', index=True, required=True, ondelete='cascade')
 
     company_id = fields.Many2one('res.company', related='order_id.company_id', string='Company', store=True, readonly=True)
     state = fields.Selection(related='order_id.state', store=True)
@@ -449,9 +451,9 @@ class PurchaseOrderLine(models.Model):
         order = self.env['purchase.rfq'].browse(self.env.context.get('order_id'))
         return order.action_add_from_catalog()
 
-    def action_purchase_history(self):
+    def action_purchase_history1(self):
         self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("purchase.action_purchase_history")
+        action = self.env["ir.actions.actions"]._for_xml_id("purchase.action_purchase_history1")
         action['domain'] = [('state', 'in', ['purchase', 'done']), ('product_id', '=', self.product_id.id)]
         action['display_name'] = _("Purchase History for %s", self.product_id.display_name)
         action['context'] = {
