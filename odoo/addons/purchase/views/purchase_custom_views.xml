@@ -81,7 +81,7 @@
                                 placeholder="Name, TIN, Email, or Reference"
                              readonly="state in ['cancel', 'done', 'purchase']"/>
                             <field name="partner_ref"/>
-                            <field name="po_created" readonly="1"/>
+                            <field name="po_created" invisible="state not in ('purchase', 'done')" readonly="1"/>
                             <field name="currency_id" groups="base.group_multi_currency" force_save="1" readonly="state in ['cancel', 'done', 'purchase']"/>
                             <field name="id" invisible="1"/>
                             <field name="company_id" invisible="1" readonly="state in ['cancel', 'done', 'purchase']"/>

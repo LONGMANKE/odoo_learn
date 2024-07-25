@@ -9,7 +9,7 @@ _STATES = [
     ("to_approve", "To be approved"),
     ("approved", "Approved"),
     ("rejected", "Rejected"),
-    ("done", "Done"),
+    ("done", "Archived"),
 ]
 
 
