@@ -8,8 +8,8 @@ class PurchaseRequisitionAlternativeWarning(models.TransientModel):
     _name = 'purchase.requisition.alternative.warning'
     _description = 'Wizard in case PO still has open alternative requests for quotation'
 
-    po_ids = fields.Many2many('purchase.order', 'warning_purchase_order_rel', string="POs to Confirm")
-    alternative_po_ids = fields.Many2many('purchase.order', 'warning_purchase_order_alternative_rel', string="Alternative POs")
+    po_ids = fields.Many2many('purchase.rfq', 'warning_purchase_order_rel', string="POs to Confirm")
+    alternative_po_ids = fields.Many2many('purchase.rfq', 'warning_purchase_order_alternative_rel', string="Alternative POs")
 
     def action_keep_alternatives(self):
         return self._action_done()

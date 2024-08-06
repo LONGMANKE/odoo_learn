@@ -131,7 +131,7 @@
             <field name="name">purchase.order.form</field>
             <field name="model">purchase.order</field>
             <field name="arch" type="xml">
-                <form string="Purchase Order" class="o_purchase_order">
+                <form string="Purchase Order" class="o_purchase_order"  create="false">
                 <header>
                     <button name="action_rfq_send" invisible="state != 'draft'" string="Send by Email" type="object" context="{'send_rfq':True}" class="oe_highlight" data-hotkey="g"/>
                     <button name="print_quotation" string="Print RFQ" type="object" invisible="state != 'draft'" class="oe_highlight" groups="base.group_user" data-hotkey="k"/>
@@ -568,7 +568,7 @@
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <tree string="Purchase Order"
-                      decoration-muted="state=='cancel'" sample="1">
+                      decoration-muted="state=='cancel'" sample="1" >
                     <field name="priority" optional="show" widget="priority" nolabel="1"/>
                     <field name="partner_ref" optional="hide"/>
                     <field name="name" string="Reference" readonly="1" decoration-info="state in ('draft','sent')"/>
@@ -637,7 +637,8 @@
                     decoration-info="invoice_status == 'to invoice'"
                     string="Purchase Order"
                     class="o_purchase_order"
-                    sample="1">
+                    sample="1"
+                    create="false">
                     <header>
                         <button name="action_create_invoice" type="object" string="Create Bills"/>
                     </header>

@@ -22,9 +22,12 @@ class PurchaseOrder(models.Model):
     _rec_names_search = ['name', 'partner_ref']
     _order = 'priority desc, id desc'
 
-    # order_id = fields.Many2one('purchase.order', string='Order Reference')
-    product_uom_qty = fields.Float(string='Quantity', required=True)
-    price_unit = fields.Float(string='Unit Price', required=True)
+    order_id = fields.Many2one('purchase.order', string='Order Reference')
+    # product_uom_qty = fields.Float(string='Quantity', required=True)
+    # price_unit = fields.Float(string='Unit Price', required=True)
+    has_alternatives = fields.Boolean(string='Has Alternatives')
+    requisition_id = fields.Many2one('purchase.requisition', string='Requisition')
+    on_time_rate_perc = fields.Float(string='On Time Rate (%)')
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
@@ -89,7 +92,7 @@ class PurchaseOrder(models.Model):
                                    "It's used to do the matching when you receive the "
                                    "products as this reference is usually written on the "
                                    "delivery order sent by your vendor.")
-    date_order = fields.Datetime('Order Deadline', required=True, index=True, copy=False, default=fields.Datetime.now,
+    date_order = fields.Datetime('Order Deadline', required=False, index=True, copy=False, default=fields.Datetime.now,
                                  help="Depicts the date within which the Quotation should be confirmed and converted into a purchase rfq.")
     date_approve = fields.Datetime('Confirmation Date', readonly=True, index=True, copy=False)
     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, change_default=True, tracking=True,
@@ -165,8 +168,12 @@ class PurchaseOrder(models.Model):
     receipt_reminder_email = fields.Boolean('Receipt Reminder Email', compute='_compute_receipt_reminder_email')
     reminder_date_before_receipt = fields.Integer('Days Before Receipt', compute='_compute_receipt_reminder_email')
     po_created = fields.Char(string='PO Created')
-    picking_type_id = fields.Char(string='Picking type ID')
-    group_id = fields.Char(string='Group ID')
+    picking_type_id = fields.Many2one(
+        'stock.picking.type', 'Operation Type', copy=True, readonly=False,
+        store=True,required=False, index=True)
+    group_id =  fields.Many2one(
+        'stock.picking.type', 'Operation Type', copy=True, readonly=False,
+        store=True,required=False, index=True)
 
     def _check_order_line_company_id(self):
         for order in self:
@@ -273,7 +280,15 @@ class PurchaseOrder(models.Model):
             if vals.get('name', 'New') == 'New':
                 seq_date = None
                 if 'date_order' in vals:
-                    seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+                    # Convert date_order to datetime if it's a string
+                    if isinstance(vals['date_order'], str):
+                        seq_date = fields.Datetime.from_string(vals['date_order'])
+                    elif isinstance(vals['date_order'], datetime):
+                        seq_date = vals['date_order']
+                    else:
+                        seq_date = None
+                    # Context timestamp conversion
+                    seq_date = fields.Datetime.context_timestamp(self_comp, seq_date) if seq_date else None
                 vals['name'] = self_comp.env['ir.sequence'].next_by_code('purchase.rfq', sequence_date=seq_date) or '/'
             vals, partner_vals = self._write_partner_values(vals)
             partner_vals_list.append(partner_vals)

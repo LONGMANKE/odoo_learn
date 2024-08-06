@@ -33,7 +33,6 @@
                 </graph>
             </field>
         </record>
-
         <record id="purchase_order_form1" model="ir.ui.view">
             <field name="name">purchase.rfq.form</field>
             <field name="model">purchase.rfq</field>
@@ -73,6 +72,7 @@
                         <h1 class="d-flex">
                             <field name="priority" widget="priority" class="me-3"/>
                             <field name="name" readonly="1"/>
+                            <field name="on_time_rate_perc"/>
                         </h1>
                     </div>
                     <group>
@@ -333,6 +333,16 @@
             </field>
         </record>
 
+    <record id="purchase.rfq_kpis_tree" model="ir.ui.view">
+    <field name="name">purchase.rfq.kpis.tree</field>
+    <field name="model">purchase.rfq</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
        <record id="view_purchase_order_filter1" model="ir.ui.view">
             <field name="name">request.quotation.select</field>
             <field name="model">purchase.rfq</field>
@@ -469,7 +479,8 @@
         </record>
 
         <record id="purchase_order_tree1" model="ir.ui.view">
-            <field name="name">purchase.rfq.tree</field>
+            <field name="name">
+            </field>
             <field name="model">purchase.rfq</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">

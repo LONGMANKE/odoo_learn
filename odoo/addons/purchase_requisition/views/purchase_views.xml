@@ -3,15 +3,15 @@
 
     <record id="purchase_order_form_inherit" model="ir.ui.view">
         <field name="name">purchase.order.form.inherit</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="model">purchase.rfq</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form1"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="replace">
                 <field name="is_quantity_copy" invisible="1"/>
                 <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_vat': True}" readonly="is_quantity_copy == 'none' or state in ['purchase', 'done', 'cancel']" placeholder="Name, TIN, Email, or Reference" force_save="1"/>
             </field>
             <field name="partner_ref" position="after">
-                <field name="requisition_id" domain="[('state', 'in', ('in_progress', 'open', 'ongoing')), ('vendor_id', 'in', (partner_id, False)), ('company_id', '=', company_id)]"
+                <field name="rfq_id" domain="[('state', 'in', ('in_progress', 'open', 'ongoing')), ('vendor_id', 'in', (partner_id, False)), ('company_id', '=', company_id)]"
                 options="{'no_create': True}"/>
             </field>
             <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
@@ -25,7 +25,7 @@
                         <group>
                             <p colspan="2">
                                 <button name="action_create_alternative" type="object" class="btn-link d-block" string="Create Alternative" icon="fa-copy"/>
-                                <button name="action_compare_alternative_lines" type="object" class="btn-link d-block" string="Compare Product Lines" icon="fa-bar-chart" invisible="not alternative_po_ids"/>
+<!--                                <button name="action_compare_alternative_lines" type="object" class="btn-link d-block" string="Compare Product Lines" icon="fa-bar-chart" invisible="not alternative_po_ids"/>-->
                             </p>
                         </group>
                     </group>
@@ -58,20 +58,19 @@
         </field>
     </record>
 
-    <record id="purchase_order_kpis_tree_inherit_purchase_requisition" model="ir.ui.view">
-        <field name="name">purchase.order.kpis.tree.inherit.purchase.requisition</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
-        <field name="arch" type="xml">
-            <field name="name" position="before">
-                <field name="has_alternatives" column_invisible="True"/>
-                <button class="fa fa-copy"
-                    title="Has Alternatives"
-                    disabled="1"
-                    invisible="not has_alternatives"/>
-            </field>
-        </field>
-    </record>
+   <record id="purchase_rfq_kpis_tree_inherit_purchase_requisition" model="ir.ui.view">
+    <field name="name">purchase.rfq.kpis.tree.inherit.purchase.requisition</field>
+    <field name="model">purchase.rfq</field>
+    <field name="inherit_id" ref="purchase.rfq_kpis_tree"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="before">
+            <field name="has_alternatives" column_invisible="True"/>
+            <button string="Has Alternatives" class="fa fa-copy" title="Has Alternatives" disabled="1" invisible="not has_alternatives"/>
+        </xpath>
+    </field>
+</record>
+
+
 
     <record id="purchase_order_tree_inherit_purchase_requisition" model="ir.ui.view">
         <field name="name">purchase.order.tree.inherit.purchase.requisition</field>

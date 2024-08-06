@@ -15,8 +15,7 @@ class PurchaseOrderLine(models.Model):
     _description = 'Purchase Order Line'
     _order = 'order_id, sequence, id'
 
-
-
+    on_time_rate_perc = fields.Float(string='On Time Rate (%)')
     name = fields.Text(
         string='Description', required=True, compute='_compute_price_unit_and_date_planned_and_name', store=True, readonly=False)
     sequence = fields.Integer(string='Sequence', default=10)

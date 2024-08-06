@@ -72,11 +72,9 @@
         </field>
     </record>
 
-    <!-- Purchase Orders -->
-
     <record model="ir.actions.act_window" id="action_purchase_requisition_to_so">
         <field name="name">Request for Quotation</field>
-        <field name="res_model">purchase.order</field>
+        <field name="res_model">purchase.rfq</field>
         <field name="view_mode">form,tree</field>
         <field name="domain">[('requisition_id','=',active_id)]</field>
         <field name="context">{
@@ -86,7 +84,7 @@
     </record>
     <record model="ir.actions.act_window" id="action_purchase_requisition_list">
         <field name="name">Request for Quotations</field>
-        <field name="res_model">purchase.order</field>
+        <field name="res_model">purchase.rfq</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('requisition_id','=',active_id)]</field>
         <field name="context">{
