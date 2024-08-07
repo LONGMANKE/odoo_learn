@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree string="Patients">
                 <field name="patient_id"/>
+                <field name="reference" readonly="True"/>
                 <field name="date_appointment" optional="show"/>
                 <field name="note" optional="hide"/>
             </tree>
@@ -21,6 +22,7 @@
                 <group>
                     <group>
                         <field name="patient_id"/>
+                        <field name="reference" readonly="True"/>
                         <field name="date_appointment"/>
                     </group>
                     <group>
@@ -37,7 +39,7 @@
     </record>
 
     <record id="action_hospital_appointment" model="ir.actions.act_window">
-        <field name="name">Patients</field>
+        <field name="name">Appointments</field>
         <field name="res_model">hospital.appointment</field>
         <field name="view_mode">tree,form</field>
          <field name="view_ids" eval="[Command.clear(),
