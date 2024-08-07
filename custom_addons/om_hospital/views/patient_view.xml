@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <tree string="Patients">
                 <field name="name"/>
-                <field name="date_of_birth"/>
-                <field name="gender"/>
+                <field name="date_of_birth" optional="show"/>
+                <field name="gender" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -17,6 +17,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <form string="Patients">
+                <sheet>
                 <group>
                     <group>
                         <field name="name"/>
@@ -26,6 +27,7 @@
                         <field name="gender"/>
                     </group>
                 </group>
+                </sheet>
             </form>
         </field>
     </record>
