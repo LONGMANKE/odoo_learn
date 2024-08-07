@@ -6,6 +6,6 @@ class hospitalPatient(models.Model):
       _description= 'Patient Master'
 
 
-      name = fields.Char(string="Name", required=True)
-      date_of_birth = fields.Date(string="DOB")
+      name = fields.Char(string="Name", required=True, tracking= True)
+      date_of_birth = fields.Date(string="DOB", tracking= True)
       gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string="Gender")
