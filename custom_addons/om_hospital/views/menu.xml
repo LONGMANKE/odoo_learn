@@ -11,8 +11,13 @@
               parent="menu_hospital_root"
     />
     <menuitem id="menu_patients"
-              name="Front Patients"
-              parent="menu_hospital_root"
+              name="Patients"
+              parent="menu_frontdesk"
               action="action_hospital_patient"
+    />
+    <menuitem id="menu_patients_readonly"
+              name="View Patients"
+              parent="menu_frontdesk"
+              action="action_hospital_readonly_patient"
     />
 </odoo>
