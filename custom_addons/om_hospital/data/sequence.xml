@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
+<odoo noupdate="1">
       <record id="ir_sequence_hospital_appointment" model="ir.sequence">
             <field name="name">Appointment Sequence</field>
             <field name="code">hospital.appointment</field>
