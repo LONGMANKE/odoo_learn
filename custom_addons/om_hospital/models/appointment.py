@@ -12,8 +12,8 @@ class hospitalAppointment(models.Model):
     date_appointment = fields.Date(string="Date", tracking=True)
     note = fields.Text(string="Note")
     state =  fields.Selection([('draft', 'Draft'), ('confirmed', 'Confirmed'),('ongoing', 'Ongoing'),
-                               ('done', 'Done'),('cancelled', 'Cancelled')
-                               ], string="Gender")
+                               ('done', 'Done'), ('cancelled', 'Cancelled')
+                               ], default="draft", tracking=True)
 
 
     @api.model_create_multi
