@@ -19,24 +19,30 @@
         <field name="arch" type="xml">
             <form string="Patients">
                 <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    <button name="action_confirm" type="object"  string="Confirm"/>
+                    <button name="action_ongoing" type="object"  string="ongoing"/>
+                    <button name="action_done" type="object"  string="Done"/>
+                    <button name="action_cancel" type="object"  string="Cancel"/>
+                    <!--                    i want it to be controlled from the code base not clickable by button above -->
+                    <!--                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>-->
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                <group>
                     <group>
-                        <field name="patient_id"/>
-                        <field name="reference" readonly="True"/>
-                        <field name="date_appointment"/>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="reference" readonly="True"/>
+                            <field name="date_appointment"/>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="note"/>
-                    </group>
-                </group>
                 </sheet>
-                 <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user"/>
-                        <field name="message_ids"/>
-                    </div>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -45,7 +51,7 @@
         <field name="name">Appointments</field>
         <field name="res_model">hospital.appointment</field>
         <field name="view_mode">tree,form</field>
-         <field name="view_ids" eval="[Command.clear(),
+        <field name="view_ids" eval="[Command.clear(),
 (0,0, {'view_mode': 'tree', 'view_id': ref('view_hospital_appointment_tree')}),
 (0,0, {'view_mode':'form', 'view_id': ref('view_hospital_appointment_form')})]"/>
         <field name="help" type="html">
