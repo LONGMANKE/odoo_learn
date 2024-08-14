@@ -37,7 +37,7 @@
             <field name="name">purchase.rfq.form</field>
             <field name="model">purchase.rfq</field>
             <field name="arch" type="xml">
-                <form string="Purchase Order" class="o_purchase_rfq">
+                <form string="Request for Quotation" class="o_purchase_rfq">
                 <header>
                     <button name="action_rfq_send" invisible="state != 'draft'" string="Send by Email" type="object" context="{'send_rfq':True}" class="oe_highlight" data-hotkey="g"/>
                     <button name="action_print_quotation" string="Print RFQ" type="object" invisible="state != 'draft'" class="oe_highlight" groups="base.group_user" data-hotkey="k"/>
@@ -72,7 +72,7 @@
                         <h1 class="d-flex">
                             <field name="priority" widget="priority" class="me-3"/>
                             <field name="name" readonly="1"/>
-                            <field name="on_time_rate_perc"/>
+<!--                            <field name="on_time_rate_perc"/>-->
                         </h1>
                     </div>
                     <group>
