@@ -19,7 +19,7 @@
         <field name="arch" type="xml">
             <form string="Patients">
                 <header>
-                    <field name="state"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                 <group>
