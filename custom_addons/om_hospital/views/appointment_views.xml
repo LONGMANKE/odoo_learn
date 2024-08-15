@@ -37,24 +37,31 @@
                             <field name="reference" readonly="True"/>
                             <field name="date_appointment"/>
                         </group>
-                        <group>
-                            <field name="note"/>
-                        </group>
+
                     </group>
-                    <field name="appointment_line_ids">
-                        <tree editable="bottom">
-                            <field name="product_id"/>
-                            <field name="qty"/>
-                        </tree>
-                        <form>
-                            <sheet>
-                                <group>
+                    <notebook>
+                        <page name="appointment_lines" string="Lines">
+                            <field name="appointment_line_ids">
+                                <tree editable="bottom">
                                     <field name="product_id"/>
                                     <field name="qty"/>
-                                </group>
-                            </sheet>
-                        </form>
-                    </field>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="qty"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="other_info" string="Other Info">
+                            <group>
+                            <field name="note"/>
+                        </group>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
