@@ -9,7 +9,8 @@ class hospitalAppointment(models.Model):
     _rec_name = "patient_id"
 
     reference = fields.Char(string="Reference", default='Appointment Code')
-    patient_id = fields.Many2one('hospital.patient', string="Patient")
+    # ondelete="restrict" the primary record wont delete if it is used in any secondary
+    patient_id = fields.Many2one('hospital.patient', string="Patient", required="false", ondelete="restrict")
     date_appointment = fields.Date(string="Date", tracking=True)
     note = fields.Text(string="Note")
     state = fields.Selection([('draft', 'Draft'), ('confirmed', 'Confirmed'), ('ongoing', 'Ongoing'),
