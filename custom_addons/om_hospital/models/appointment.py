@@ -16,7 +16,7 @@ class hospitalAppointment(models.Model):
                               ('done', 'Done'), ('cancelled', 'Cancelled')
                               ], default="draft", tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line', 'appointment_id', string="Lines")
-    total_qty = fields.Float(compute= '_compute_total_qty', string="Total Quantity")
+    total_qty = fields.Float(compute='_compute_total_qty', string="Total Quantity")
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -27,10 +27,13 @@ class hospitalAppointment(models.Model):
 
     def _compute_total_qty(self):
         for rec in self:
-            total_qty = 0
-            for line in rec.appointment_line_ids:
-                total_qty += line.qty
-                rec.total_qty = total_qty
+            rec.total_qty = sum(rec.appointment_line_ids.mapped('qty'))
+
+            # This is one way
+            # total_qty = 0
+            # for line in rec.appointment_line_ids:
+            #     total_qty += line.qty
+            #     rec.total_qty = total_qty
 
     def _compute_display_name(self):
         for rec in self:
