@@ -25,6 +25,7 @@
                     </group>
                     <group>
                         <field name="gender"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
                     </group>
                 </group>
                 </sheet>
