@@ -5,7 +5,7 @@ class hospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = ['mail.thread']
     _description = 'Hospital Appointment'
-    _rec_names_search = ['reference','patient_id']
+    _rec_names_search = ['reference', 'patient_id']
     _rec_name = "patient_id"
 
     reference = fields.Char(string="Reference", default='Appointment Code')
@@ -16,12 +16,17 @@ class hospitalAppointment(models.Model):
                               ('done', 'Done'), ('cancelled', 'Cancelled')
                               ], default="draft", tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line', 'appointment_id', string="Lines")
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get('reference') or vals['references'] == 'New':
                 vals['reference'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
         return super().create(vals_list)
+
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"[{rec.reference}] {rec.patient_id.name}"
 
     def action_confirm(self):
         for rec in self:
