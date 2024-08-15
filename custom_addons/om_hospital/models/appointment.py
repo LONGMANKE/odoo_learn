@@ -16,7 +16,7 @@ class hospitalAppointment(models.Model):
                               ('done', 'Done'), ('cancelled', 'Cancelled')
                               ], default="draft", tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line', 'appointment_id', string="Lines")
-    total_qty = fields.Float(compute='_compute_total_qty', string="Total Quantity")
+    total_qty = fields.Float(compute='_compute_total_qty', string="Total Quantity", store="true")
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -25,6 +25,7 @@ class hospitalAppointment(models.Model):
                 vals['reference'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
         return super().create(vals_list)
 
+    @api.depends('appointment_line_ids', 'appointment_line_ids.qty')
     def _compute_total_qty(self):
         for rec in self:
             rec.total_qty = sum(rec.appointment_line_ids.mapped('qty'))
