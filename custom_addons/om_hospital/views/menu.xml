@@ -26,6 +26,11 @@
               parent="menu_frontdesk"
               action="action_hospital_appointment"
     />
+    <menuitem id="menu_appointment_line"
+              name="Appointment line"
+              parent="menu_frontdesk"
+              action="action_hospital_appointment_line"
+    />
 
     <menuitem id="menu_configuration"
               name="Configurations"
