@@ -1,4 +1,4 @@
-from odoo import api, fields, models,_
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -12,11 +12,24 @@ class hospitalPatient(models.Model):
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string="Gender")
     tag_ids = fields.Many2many('patient.tag', 'patient_tag_rel', 'tag_id', string="Tags")
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _check_patient_appointment(self):
         for rec in self:
             domain = [('patient_id', '=', rec.id)]
             appointments = self.env['hospital.appointment'].search(domain)
             if appointments:
-                raise UserError(_("You cannot delete the patient now.\nAppointments existing for this patient: %s" % rec.name))
-                # raise ValidationError(_("You cannot delete the patient now.\nAppointments existing for this patient: %s" % rec.name))
-        return super().unlink()
+                raise UserError(
+                    _("You cannot delete the patient now."
+                      "\nAppointments existing for this patient"))
+
+    # Alternative way to do it
+    # def unlink(self):
+    #     for rec in self:
+    #         domain = [('patient_id', '=', rec.id)]
+    #         appointments = self.env['hospital.appointment'].search(domain)
+    #         if appointments:
+    #             raise UserError(
+    #                 _("You cannot delete the patient now.\nAppointments existing for this patient: %s" % rec.name))
+    #              #raise ValidationError(
+    #              _("You cannot delete the patient now.\nAppointments existing for this patient: %s" % rec.name))
+    #     return super().unlink()
