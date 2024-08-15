@@ -10,3 +10,6 @@ class hospitalPatient(models.Model):
       date_of_birth = fields.Date(string="DOB", tracking= True)
       gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string="Gender")
       tag_ids = fields.Many2many('patient.tag', 'patient_tag_rel', 'tag_id', string="Tags")
+
+      def unlink(self):
+            return super().unlink()
