@@ -5,6 +5,7 @@ class hospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = ['mail.thread']
     _description = 'Hospital Appointment'
+    _rec_names_search = ['reference','patient_id']
     _rec_name = "patient_id"
 
     reference = fields.Char(string="Reference", default='Appointment Code')
