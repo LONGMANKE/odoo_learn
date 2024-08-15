@@ -33,11 +33,13 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="patient_id"/>
                             <field name="reference" readonly="True"/>
+                            <field name="patient_id"/>
                             <field name="date_appointment"/>
                         </group>
-
+                        <group>
+                            <field name="total_qty"/>
+                        </group>
                     </group>
                     <notebook>
                         <page name="appointment_lines" string="Lines">
@@ -58,8 +60,8 @@
                         </page>
                         <page name="other_info" string="Other Info">
                             <group>
-                            <field name="note"/>
-                        </group>
+                                <field name="note"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
