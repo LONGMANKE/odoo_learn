@@ -5,6 +5,7 @@
         <field name="model">patient.tag</field>
         <field name="arch" type="xml">
             <tree string="Patient Tags" editable="top">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
             </tree>
         </field>
