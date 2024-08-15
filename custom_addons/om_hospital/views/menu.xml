@@ -3,6 +3,7 @@
 
     <menuitem id="menu_hospital_root"
               name="HMS"
+              web_icon="om_hospital,static/description/icon.png"
               sequence="35"
     />
 
@@ -20,9 +21,20 @@
               parent="menu_frontdesk"
               action="action_hospital_readonly_patient"
     />
-     <menuitem id="menu_appointment"
+    <menuitem id="menu_appointment"
               name="Appointments"
               parent="menu_frontdesk"
               action="action_hospital_appointment"
+    />
+
+    <menuitem id="menu_configuration"
+              name="Configurations"
+              sequence="100"
+              parent="menu_hospital_root"
+    />
+    <menuitem id="menu_patient_tag"
+              name="Tags"
+              parent="menu_configuration"
+              action="action_patient_tag"
     />
 </odoo>
