@@ -35,6 +35,7 @@
     <menuitem id="menu_configuration"
               name="Configurations"
               sequence="100"
+              groups="om_hospital.group_hospital_doctors"
               parent="menu_hospital_root"
     />
     <menuitem id="menu_patient_tag"
