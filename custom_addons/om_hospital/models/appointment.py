@@ -20,7 +20,7 @@ class hospitalAppointment(models.Model):
                               ], default="draft", tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line', 'appointment_id', string="Lines")
     total_qty = fields.Float(compute='_compute_total_qty', string="Total Quantity", store="true")
-    date_of_birth = fields.Date(related='patient_id.date_of_birth', store="true")
+    date_of_birth = fields.Date(related='patient_id.date_of_birth', store="true", groups="om_hospital.group_hospital_doctors")
 
     @api.model_create_multi
     def create(self, vals_list):
