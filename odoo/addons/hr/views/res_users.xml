@@ -225,12 +225,12 @@
         </record>
 
         <record id="view_users_simple_form" model="ir.ui.view">
-            <field name="name">view.users.simple.form.hr</field>
+         <field name="arch" type="xml">
+                <field name="name">view.users.simple.form.hr</field>
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_simple_form"/>
             <field name="mode">primary</field>
-            <field name="arch" type="xml">
-                <sheet position="after">
+               <sheet position="after">
                     <footer>
                         <button string="Save" special="save" class="btn btn-primary"/>
                         <button string="Cancel" special="cancel" class="btn btn-secondary"/>
