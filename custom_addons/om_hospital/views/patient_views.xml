@@ -22,9 +22,12 @@
                     <group>
                         <field name="name"/>
                         <field name="date_of_birth"/>
+                        <field name="is_minor" readonly="gender == 'female'"/>
+                        <field name="guardian" invisible="not is_minor"/>
                     </group>
                     <group>
                         <field name="gender"/>
+                        <field name="weight"/>
                         <field name="tag_ids" widget="many2many_tags"/>
                     </group>
                 </group>
