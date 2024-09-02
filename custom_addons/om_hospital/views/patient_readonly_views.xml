@@ -36,11 +36,28 @@
             </form>
         </field>
     </record>
+    <record id="view_hospital_patient_readonly_search" model="ir.ui.view">
+        <field name="name">hospital.patient.readonly.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name"/>
+                <field name="date_of_birth"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by' : 'gender'}"/>
+                </group>
+                <searchpanel>
+                    <field name="gender" string="Gender" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
 
     <record id="action_hospital_readonly_patient" model="ir.actions.act_window">
         <field name="name">View Patients</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hospital_patient_readonly_search"/>
         <field name="view_ids" eval="[Command.clear(),
 (0,0, {'view_mode': 'tree', 'view_id': ref('view_hospital_patient_readonly_tree')}),
 (0,0, {'view_mode':'form', 'view_id': ref('view_hospital_patient_readonly_form')})]"/>

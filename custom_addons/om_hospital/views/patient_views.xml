@@ -18,35 +18,59 @@
         <field name="arch" type="xml">
             <form string="Patients">
                 <sheet>
-                <group>
                     <group>
-                        <field name="name"/>
-                        <field name="date_of_birth"/>
-                        <field name="is_minor" readonly="gender == 'female'"/>
-                        <field name="guardian" invisible="not is_minor"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                            <field name="is_minor"/>
+                            <field name="guardian" invisible="not is_minor"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="weight" readonly="gender == 'female'"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="gender"/>
-                        <field name="weight"/>
-                        <field name="tag_ids" widget="many2many_tags"/>
-                    </group>
-                </group>
                 </sheet>
-                 <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user"/>
-                        <field name="message_ids"/>
-                    </div>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
+
+    <record id="view_hospital_patient_search1" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name"/>
+                <field name="date_of_birth"/>
+                <field name="gender"/>
+                <field name="guardian"/>
+                <filter string="Male" name="male_patients" domain="[('gender', '=', 'male')]"/>
+                <filter string="Female" name="female_patients" domain="[('gender', '=', 'female')]"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by' : 'gender'}"/>
+                </group>
+                <searchpanel>
+                    <field name="gender" string="Gender" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
 
     <record id="action_hospital_patient" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
-         <field name="view_ids" eval="[Command.clear(),
+        <field name="search_view_id" ref="view_hospital_patient_search1"/>
+        <field name="view_ids" eval="[Command.clear(),
 (0,0, {'view_mode': 'tree', 'view_id': ref('view_hospital_patient_tree')}),
 (0,0, {'view_mode':'form', 'view_id': ref('view_hospital_patient_form')})]"/>
+        <field name="context">{'search_default_male_patients': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new patient
