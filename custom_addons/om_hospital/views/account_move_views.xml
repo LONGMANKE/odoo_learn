@@ -8,6 +8,9 @@
             <xpath expr="//field[@name='payment_reference']" position="after">
                 <field name="appointment_id"/>
             </xpath>
+            <xpath expr="//group[@name='accounting_info_group']/field[@name='auto_post']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
         <record id="view_out_invoice_tree_inherited" model="ir.ui.view">
