@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api
 
 
-# class student(models.Model):
-#     _name = 'student.student'
-#     _description = 'student.student'
+class Student(models.Model):
+    _name = 'wb.student'
+    _description = 'This is a student profile'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    name = fields.Char("Name")
+    name1 = fields.Char("Name1")
+    name2 = fields.Char("Name2")
+    name3 = fields.Char("Name3")
+    name4 = fields.Char("Name4")
+
 
