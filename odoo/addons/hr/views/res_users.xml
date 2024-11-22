@@ -224,20 +224,20 @@
             </field>
         </record>
 
-        <record id="view_users_simple_form" model="ir.ui.view">
-         <field name="arch" type="xml">
-                <field name="name">view.users.simple.form.hr</field>
-            <field name="model">res.users</field>
-            <field name="inherit_id" ref="base.view_users_simple_form"/>
-            <field name="mode">primary</field>
-               <sheet position="after">
-                    <footer>
-                        <button string="Save" special="save" class="btn btn-primary"/>
-                        <button string="Cancel" special="cancel" class="btn btn-secondary"/>
-                    </footer>
-                </sheet>
-            </field>
-        </record>
+        <record id="view_users_simple_form_hr" model="ir.ui.view">
+    <field name="name">view.users.simple.form.hr</field>
+    <field name="model">res.users</field>
+    <field name="inherit_id" ref="base.view_users_simple_form"/>
+    <field name="arch" type="xml">
+        <sheet position="inside">
+            <footer>
+                <button string="Save" special="save" class="btn btn-primary"/>
+                <button string="Cancel" special="cancel" class="btn btn-secondary"/>
+            </footer>
+        </sheet>
+    </field>
+</record>
+
 
         <record id="res_users_action_my" model="ir.actions.act_window">
             <field name="name">Change my Preferences</field>
