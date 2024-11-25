@@ -19,7 +19,7 @@ Long description of module's purpose
 
     # any module necessary for this one to work correctly
     'depends': ['base'],
-
+    'auto_install': False,
     # always loaded
     'data': [
         'security/ir.model.access.csv',

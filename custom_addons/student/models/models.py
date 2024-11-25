@@ -9,8 +9,11 @@ class Student(models.Model):
 
     name = fields.Char("Name")
     name1 = fields.Char("Name1")
-    name2 = fields.Char("Name2")
-    name3 = fields.Char("Name3")
-    name4 = fields.Char("Name4")
+    name2 = fields.Char("Name2", copy=False)
+    name3 = fields.Char("Name3", default="learn")
+    name4 = fields.Char("Name4", readonly=True)
+
+    student_name= fields.Char(string="Student", required=True, index=True, size=10)
+    address = fields.Text("Student Address", required=True, help="Enter here student address", default="Student address")
 
 

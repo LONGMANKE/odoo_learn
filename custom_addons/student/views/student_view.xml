@@ -18,10 +18,12 @@
                 <form>
                     <group>
                         <field name="name"/>
-                        <field name="name1"/>
+                        <field name="name1" invisible="1"/>
                         <field name="name2"/>
-                        <field name="name3"/>
+                        <field name="name3" string="testname"/>
                         <field name="name4"/>
+                        <field name="address"/>
+                        <field name="student_name"/>
                     </group>
                 </form>
             </field>
