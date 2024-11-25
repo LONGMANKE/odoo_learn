@@ -17,14 +17,24 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name="name"/>
-                        <field name="name1" invisible="1"/>
-                        <field name="name2"/>
-                        <field name="name3" string="testname"/>
-                        <field name="name4"/>
-                        <field name="address"/>
-                        <field name="student_name"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="name1" invisible="1"/>
+                            <field name="name2"/>
+                            <field name="name3" string="testname"/>
+                            <field name="name4"/>
+                            <field name="address"/>
+                            <field name="student_name"/>
+                        </group>
+                        <group>
+                            <field name="address_html"
+                                   string= "Override HTML Label"
+                                   placeholder="Hello enter here your html information"
+                            />
+<!--                                   options="{'sandboxedPreview': true}" nolabel=1-->
+                        </group>
                     </group>
+
                 </form>
             </field>
         </record>

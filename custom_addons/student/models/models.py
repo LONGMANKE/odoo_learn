@@ -16,4 +16,4 @@ class Student(models.Model):
     student_name= fields.Char(string="Student", required=True, index=True, size=10)
     address = fields.Text("Student Address", required=True, help="Enter here student address", default="Student address")
 
-
+    address_html= fields.Html("Address Html", help="This field is use for the dynamic html code to render into the student profile.", copy=False)
