@@ -19,9 +19,10 @@
                 <form>
                     <group>
                         <group>
-                            <button name="json_data_store" type="object" string="JSON FEED"/>
-                            <field name="school_data"/>
-                            <field name="student_fees" string="STD fees"
+                             <field name="joining_date" help="provide here student joining date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                                                      <field name="student_fees" string="STD fees"
                                    placeholder="You can enter here current year fees"/>
                             <field name="roll_number" help="Please use here unique enrollment number"
                                    placeholder="Enter enrollment number"/>
@@ -38,6 +39,8 @@
                             <field name="name4"/>
                             <field name="address"/>
                             <field name="student_name"/>
+                            <button name="json_data_store" type="object" string="JSON FEED"/>
+                            <field name="school_data"/>
                         </group>
                         <group>
                             <field name="address_html"

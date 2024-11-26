@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
-
+from odoo import api, fields, models
+import time
 
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
 
+    # joining_date = fields.Date(string="Joining DT", default='2024-12-01')
+    # joining_date = fields.Date(string="Joining DT", default=fields.Date.today())
+    # joining_date = fields.Date(string="Joining DT", default=fields.Date.today)
+    joining_date = fields.Date(string="Joining DT", default=fields.Date.context_today)
+
+    start_date = fields.Date(default= time.strftime("%Y-01-01"))
+    end_date = fields.Date(default= time.strftime("%Y-12-31"))
     school_data = fields.Json()
+
 
     @api.model
     def _get_vip_list(self):
