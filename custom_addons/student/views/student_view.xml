@@ -5,8 +5,10 @@
             <field name="model">wb.student</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="roll_number"/>
+                    <field name="id"/>
                     <field name="name"/>
+                    <field name="school_id"/>
+                    <field name="roll_number"/>
                     <field name="name1"/>
                     <field name="name2"/>
                 </tree>
@@ -19,10 +21,12 @@
                 <form>
                     <group>
                         <group>
-                             <field name="joining_date"/>
-<!--                            <field name="joining_date" help="provide here student joining date"/>-->
-<!--                            <field name="start_date"/>-->
-<!--                            <field name="end_date"/>-->
+                            <field name="joining_date"/>
+                            <!--                            <field name="joining_date" help="provide here student joining date"/>-->
+                            <!--                            <field name="start_date"/>-->
+                            <!--                            <field name="end_date"/>-->
+                            <field name="school_id"/>
+
                             <field name="student_fees" string="STD fees"
                                    placeholder="You can enter here current year fees"/>
                             <field name="roll_number" help="Please use here unique enrollment number"

@@ -3,10 +3,18 @@
 from odoo import api, fields, models
 import time
 
+class School(models.Model):
+    _name = "wb.school"
+    _description = "This is school profile"
 
+    name = fields.Char("School Name")
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
+
+
+    school_id= fields.Many2one("wb.school")
+
     # date and time field
     # joining_date = fields.Datetime(copy=False, default="2024-12-01 00:00:00")
     joining_date = fields.Datetime(copy=False, default=fields.Datetime.now)

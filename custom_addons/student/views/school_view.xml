@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="wb_school_tree_view" model="ir.ui.view">
+            <field name="name">wb.school.tree.view</field>
+            <field name="model">wb.school</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!--        <record id="wb_school_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">wb.school.form.view</field>-->
+        <!--            <field name="model">wb.school</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form>-->
+        <!--                    <group>-->
+        <!--                        <group>-->
+        <!--                            <field name="name"/>-->
+        <!--                        </group>-->
+        <!--                    </group>-->
+
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <record id="wb_school_action" model="ir.actions.act_window">
+            <field name="name">School</field>
+            <field name="res_model">wb.school</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+        <menuitem id="wb_school_menu"
+                  action="wb_school_action"
+                  parent="wb_student_sub_root_menu"
+                  name="Schools"
+        />
+    </data>
+</odoo>
