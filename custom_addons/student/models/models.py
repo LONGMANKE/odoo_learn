@@ -3,19 +3,25 @@
 from odoo import api, fields, models
 import time
 
+
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
+    # date and time field
+    # joining_date = fields.Datetime(copy=False, default="2024-12-01 00:00:00")
+    joining_date = fields.Datetime(copy=False, default=fields.Datetime.now)
+    # joining_date = fields.Datetime(copy=False, default=fields.Datetime.now())
 
+    # date fields
     # joining_date = fields.Date(string="Joining DT", default='2024-12-01')
     # joining_date = fields.Date(string="Joining DT", default=fields.Date.today())
     # joining_date = fields.Date(string="Joining DT", default=fields.Date.today)
-    joining_date = fields.Date(string="Joining DT", default=fields.Date.context_today)
+    # joining_date = fields.Date(string="Joining DT", default=fields.Date.context_today)
+    #
+    # start_date = fields.Date(default= time.strftime("%Y-01-01"))
+    # end_date = fields.Date(default= time.strftime("%Y-12-31"))
 
-    start_date = fields.Date(default= time.strftime("%Y-01-01"))
-    end_date = fields.Date(default= time.strftime("%Y-12-31"))
     school_data = fields.Json()
-
 
     @api.model
     def _get_vip_list(self):
@@ -53,4 +59,4 @@ class Student(models.Model):
         return [('male', 'Male'), ('female', 'Female')]
 
     def json_data_store(self):
-        self.school_data = {"name":self.name, "id":self.id, "fees":self.student_fees, "g":self.gender}
+        self.school_data = {"name": self.name, "id": self.id, "fees": self.student_fees, "g": self.gender}
