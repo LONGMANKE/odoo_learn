@@ -9,13 +9,17 @@ class School(models.Model):
     _description = "This is school profile"
 
     name = fields.Char("School Name")
-    student_list = fields.One2many("wb.student","school_id", string="Students", readonly=1, help="This field is used to display related students list for this current school.")
+    student_list = fields.One2many("wb.student", "school_id", string="Students", readonly=1,
+                                   help="This field is used to display related students list for this current school.")
 
 
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
 
+    hobby_list = fields.Many2many("wb.hobby", "student_hobby_list_relation","student_id","hobby_id")
+    hobby_list_ids = fields.Many2many("wb.hobby"
+                                      )
     # school_id = fields.Many2one("wb.school")
     # school_id = fields.Many2one("wb.school", "School Name")
     school_id = fields.Many2one(comodel_name="wb.school")
@@ -73,3 +77,10 @@ class Student(models.Model):
 
     def json_data_store(self):
         self.school_data = {"name": self.name, "id": self.id, "fees": self.student_fees, "g": self.gender}
+
+
+class Hobby(models.Model):
+    _name = "wb.hobby"
+    _description = "This is students hobbies"
+
+    name = fields.Char("Hobby Name")

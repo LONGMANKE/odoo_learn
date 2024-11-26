@@ -21,6 +21,7 @@
                 <form>
                     <group>
                         <group>
+                            <field name="hobby_list"/>
                             <field name="joining_date"/>
                             <!--                            <field name="joining_date" help="provide here student joining date"/>-->
                             <!--                            <field name="start_date"/>-->
