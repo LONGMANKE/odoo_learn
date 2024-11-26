@@ -11,6 +11,7 @@ class Student(models.Model):
     def _get_vip_list(self):
         return [('a', '1'), ('b', '2'), ('c', '3')]
 
+    roll_number = fields.Integer("Enrollment Number", index=True)
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], required=1
     )

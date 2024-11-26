@@ -5,6 +5,7 @@
             <field name="model">wb.student</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="roll_number"/>
                     <field name="name"/>
                     <field name="name1"/>
                     <field name="name2"/>
@@ -18,7 +19,9 @@
                 <form>
                     <group>
                         <group>
-                            <field name="combobox" help="Please select gender" required="1" placeholder="Hello please select Gender options"/>
+                            <field name="roll_number"  help="Please use here unique enrollment number" placeholder="Enter enrollment number"/>
+                            <field name="combobox" help="Please select gender" required="1"
+                                   placeholder="Hello please select Gender options"/>
                             <field name="gender"/>
                             <field name="advanced_gender"/>
                             <field name="vip_gender" placeholder="Hello please select VIP options"/>
@@ -33,10 +36,10 @@
                         </group>
                         <group>
                             <field name="address_html"
-                                   string= "Override HTML Label"
+                                   string="Override HTML Label"
                                    placeholder="Hello enter here your html information"
                             />
-<!--                                   options="{'sandboxedPreview': true}" nolabel=1-->
+                            <!--                                   options="{'sandboxedPreview': true}" nolabel=1-->
                         </group>
                     </group>
 
