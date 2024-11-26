@@ -9,6 +9,7 @@ class School(models.Model):
     _description = "This is school profile"
 
     name = fields.Char("School Name")
+    student_list = fields.One2many("wb.student","school_id", string="Students", readonly=1, help="This field is used to display related students list for this current school.")
 
 
 class Student(models.Model):
