@@ -19,7 +19,9 @@
                 <form>
                     <group>
                         <group>
-                            <field name="roll_number"  help="Please use here unique enrollment number" placeholder="Enter enrollment number"/>
+                            <field name="student_fees" string="STD fees"  placeholder="You can enter here current year fees"/>
+                            <field name="roll_number" help="Please use here unique enrollment number"
+                                   placeholder="Enter enrollment number"/>
                             <field name="combobox" help="Please select gender" required="1"
                                    placeholder="Hello please select Gender options"/>
                             <field name="gender"/>
