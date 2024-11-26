@@ -26,7 +26,6 @@
                             <!--                            <field name="start_date"/>-->
                             <!--                            <field name="end_date"/>-->
                             <field name="school_id"/>
-
                             <field name="student_fees" string="STD fees"
                                    placeholder="You can enter here current year fees"/>
                             <field name="roll_number" help="Please use here unique enrollment number"

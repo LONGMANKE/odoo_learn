@@ -3,17 +3,21 @@
 from odoo import api, fields, models
 import time
 
+
 class School(models.Model):
     _name = "wb.school"
     _description = "This is school profile"
 
     name = fields.Char("School Name")
+
+
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
 
-
-    school_id= fields.Many2one("wb.school")
+    # school_id = fields.Many2one("wb.school")
+    # school_id = fields.Many2one("wb.school", "School Name")
+    school_id = fields.Many2one(comodel_name="wb.school")
 
     # date and time field
     # joining_date = fields.Datetime(copy=False, default="2024-12-01 00:00:00")
@@ -36,7 +40,7 @@ class Student(models.Model):
         return [('a', '1'), ('b', '2'), ('c', '3')]
 
     student_fees = fields.Float(digits="Discount", help="Please Enter Student fees")
-    roll_number = fields.Integer("Enrollment Number", index=True)
+    roll_number = fields.Integer("Enrollment NO", index=True)
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], required=1
     )
