@@ -18,6 +18,10 @@
                 <form>
                     <group>
                         <group>
+                            <field name="combobox" help="Please select gender" required="1" placeholder="Hello please select Gender options"/>
+                            <field name="gender"/>
+                            <field name="advanced_gender"/>
+                            <field name="vip_gender" placeholder="Hello please select VIP options"/>
                             <field name="name"/>
                             <field name="is_paid"/>
                             <field name="name1" invisible="1"/>
