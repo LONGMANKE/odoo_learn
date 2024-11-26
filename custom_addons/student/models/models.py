@@ -7,6 +7,8 @@ class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
 
+    school_data = fields.Json()
+
     @api.model
     def _get_vip_list(self):
         return [('a', '1'), ('b', '2'), ('c', '3')]
@@ -41,3 +43,6 @@ class Student(models.Model):
 
     def _get_advanced_gender_list(self):
         return [('male', 'Male'), ('female', 'Female')]
+
+    def json_data_store(self):
+        self.school_data = {"name":self.name, "id":self.id, "fees":self.student_fees, "g":self.gender}
