@@ -1,18 +1,35 @@
 # -*- coding: utf-8 -*-
 from odoo import http
+from odoo.http import request
+import json
+from datetime import datetime
 
 
 class OdooController(http.Controller):
-    @http.route('/odoo_controller/odoo_controller', auth='public')
-    def index(self, **kw):
-        sales_orders = http.request.env['sale.order'].search([])
-        output = "<h1>Sales Orders</h1><ul>"
-        for sale in sales_orders:
-            output += '<li>' + sale['name'] + '</li>'
-        output += '</ul>'
-            # print(sale['name'])
-        return output
-        # return "<h1>Data Accessed</h1>"
+    @http.route('/api/sales_orders', auth='public', methods=['GET'], type='http', csrf=False)
+    def get_sales_orders(self, **kwargs):
+        try:
+            sales_orders = request.env['sale.order'].sudo().search([])
+            sales_orders_list = []
+            for order in sales_orders:
+                sales_orders_list.append({
+                    'id': order.id,
+                    'name': order.name,
+                    'date_order': order.date_order.strftime('%Y-%m-%d %H:%M:%S') if order.date_order else None,
+                    'amount_total': order.amount_total,
+                    'state': order.state,
+                    'customer': order.partner_id.name if order.partner_id else None,
+                })
+            # Serialize response as JSON
+            return request.make_response(json.dumps({
+                'status': 'success',
+                'data': sales_orders_list
+            }), headers=[('Content-Type', 'application/json')])
+        except Exception as e:
+            return request.make_response(json.dumps({
+                'status': 'error',
+                'message': str(e)
+            }), headers=[('Content-Type', 'application/json')])
 
 #     @http.route('/odoo_controller/odoo_controller/objects', auth='public')
 #     def list(self, **kw):
