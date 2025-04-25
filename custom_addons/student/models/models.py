@@ -9,16 +9,22 @@ class School(models.Model):
     _description = "This is school profile"
 
     name = fields.Char("School Name")
+    invoice_id = fields.Many2one("account.move")
+    #this will be a virtual field
+    invoice_user_id= fields.Many2one("res.users",  related="invoice_id.invoice_user_id")
+    #This will be stored in the table //brings also like the search by sales person in  the group by
+    # invoice_user_id= fields.Many2one("res.users",  related="invoice_id.invoice_user_id", storable=True)
+    invoice_date= fields.Date(related="invoice_id.invoice_date")
     student_list = fields.One2many("wb.student", "school_id", string="Students", readonly=1,
                                    help="This field is used to display related students list for this current school.")
 
-    ref_field_id = fields.Reference([('wb.school','School'),
+    ref_field_id = fields.Reference(selection=[('wb.school','School'),
                                      ('wb.student','Student'),
                                      ('wb.hobby','Hobby'),
                                      ('sales.order','Sale'),
                                      ('account.move','Invoice'),
                                      ('purchase.order','Purchase'),
-                                     ])
+                                     ], string="reference", required=1, help="Please select records accordingly") #we can use default
 
 
 class Student(models.Model):

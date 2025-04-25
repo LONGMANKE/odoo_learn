@@ -20,6 +20,9 @@
                         <group>
                             <field name="name"/>
                             <field name="ref_field_id"/>
+                            <field name="invoice_id"/>
+                            <field name="invoice_user_id"/>
+                            <field name="invoice_date"/>
 <!--                            <field name="student_list" string="Student List (Current XYZ)"/>-->
                         </group>
                     </group>
