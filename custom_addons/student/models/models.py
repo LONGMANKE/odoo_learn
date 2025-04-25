@@ -12,6 +12,14 @@ class School(models.Model):
     student_list = fields.One2many("wb.student", "school_id", string="Students", readonly=1,
                                    help="This field is used to display related students list for this current school.")
 
+    ref_field_id = fields.Reference([('wb.school','School'),
+                                     ('wb.student','Student'),
+                                     ('wb.hobby','Hobby'),
+                                     ('sales.order','Sale'),
+                                     ('account.move','Invoice'),
+                                     ('purchase.order','Purchase'),
+                                     ])
+
 
 class Student(models.Model):
     _name = 'wb.student'

@@ -19,7 +19,8 @@
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="student_list"/>
+                            <field name="ref_field_id"/>
+<!--                            <field name="student_list" string="Student List (Current XYZ)"/>-->
                         </group>
                     </group>
                 </form>
