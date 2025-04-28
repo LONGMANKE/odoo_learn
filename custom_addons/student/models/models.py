@@ -8,6 +8,7 @@ class School(models.Model):
     _name = "wb.school"
     _description = "This is school profile"
 
+    image = fields.Image("School Image", max_width=128, max_height=128)
     name = fields.Char("School Name")
     invoice_id = fields.Many2one("account.move")
     #this will be a virtual field
@@ -33,7 +34,7 @@ class School(models.Model):
     # amount = fields.Monetary("Amount")
 
     #use this if like you name the field anything else rather than currency_id
-    my_currency_id = fields.Many2one("res.currency", string="(My Currency)", )
+    my_currency_id = fields.Many2one("res.currency", string="(My Currency)" )
     amount = fields.Monetary("Amount", currency_field="my_currency_id")
 
 class Student(models.Model):

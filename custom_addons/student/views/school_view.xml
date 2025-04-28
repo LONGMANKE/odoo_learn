@@ -35,6 +35,9 @@
                             <field name="binary_file_name" invisible="1"/>
                             <!--                            <field name="student_list" string="Student List (Current XYZ)"/>-->
                         </group>
+                        <group>
+                            <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+                        </group>
                     </group>
                 </form>
             </field>
