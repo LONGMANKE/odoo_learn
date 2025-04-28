@@ -4,13 +4,17 @@
             <field name="name">wb.student.tree.view</field>
             <field name="model">wb.student</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Student">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="school_id"/>
                     <field name="roll_number"/>
                     <field name="name1"/>
                     <field name="name2"/>
+                    <field name="is_paid"/>
+                    <field name="student_fees"/>
+                    <field name="discount_fees"/>
+                    <field name="final_fees"/>
                 </tree>
             </field>
         </record>
@@ -29,6 +33,11 @@
                             <field name="school_id"/>
                             <field name="student_fees" string="STD fees"
                                    placeholder="You can enter here current year fees"/>
+                            <field name="discount_fees"/>
+                            # when the field is not readonly and is stored and when i refresh it rewrites to the default
+<!--                            <field name="final_fees" readonly="0"/>-->
+                            # works with readonly and the field saves the latest compute
+                            <field name="final_fees" force_save="1"/>
                             <field name="roll_number" help="Please use here unique enrollment number"
                                    placeholder="Enter enrollment number"/>
                             <field name="combobox" help="Please select gender" required="1"
@@ -53,6 +62,7 @@
                                    placeholder="Hello enter here your html information"
                             />
                             <!--                                   options="{'sandboxedPreview': true}" nolabel=1-->
+                            <field name="compute_address_html"/>
                         </group>
                     </group>
 

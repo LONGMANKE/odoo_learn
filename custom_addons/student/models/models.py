@@ -58,7 +58,8 @@ class Student(models.Model):
     def _get_vip_list(self):
         return [('a', '1'), ('b', '2'), ('c', '3')]
 
-    student_fees = fields.Float(digits="Discount", help="Please Enter Student fees")
+    student_fees = fields.Float(digits="Student Fees", help="Please Enter Student fees")
+    discount_fees = fields.Float("Discount")
     roll_number = fields.Integer("Enrollment NO", index=True)
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female')], required=1
@@ -85,7 +86,19 @@ class Student(models.Model):
     address_html = fields.Html("Address Html",
                                help="This field is use for the dynamic html code to render into the student profile.",
                                copy=False)
+    # autoupdate when i type the address above
+    compute_address_html = fields.Html(string="Compute Address Field")
+    final_fees = fields.Float("Final Fees", compute="_compute_final_fees_cal", store=True)
 
+    @api.onchange("address_html")
+    def onchange_address_html_field(self):
+        for record in self:
+            record.compute_address_html = record.address_html
+
+    @api.onchange("student_fees","discount_fees" )
+    def _compute_final_fees_cal(self):
+        for record in self:
+            record.final_fees = record.student_fees - record.discount_fees
     def _get_advanced_gender_list(self):
         return [('male', 'Male'), ('female', 'Female')]
 
