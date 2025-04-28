@@ -25,6 +25,9 @@ class School(models.Model):
                                      ('account.move','Invoice'),
                                      ('purchase.order','Purchase'),
                                      ], string="reference", required=1, help="Please select records accordingly") #we can use default
+    binary_field = fields.Binary(string="Upload file", copy=False)
+    binary_file_name = fields.Char("Binary Field Name")
+    binary_fields = fields.Many2many("ir.attachment", string="Multi Files Upload")
 
 
 class Student(models.Model):
@@ -95,7 +98,8 @@ class Student(models.Model):
         for record in self:
             record.compute_address_html = record.address_html
 
-    @api.onchange("student_fees","discount_fees" )
+    @api.onchange("student_fees","discount_fees")
+    # @api.depends("student_fees","discount_fees")
     def _compute_final_fees_cal(self):
         for record in self:
             record.final_fees = record.student_fees - record.discount_fees
