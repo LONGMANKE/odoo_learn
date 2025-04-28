@@ -28,7 +28,13 @@ class School(models.Model):
     binary_field = fields.Binary(string="Upload file", copy=False)
     binary_file_name = fields.Char("Binary Field Name")
     binary_fields = fields.Many2many("ir.attachment", string="Multi Files Upload")
+    #this currency_id is known by default
+    # currency_id = fields.Many2one("res.currency", "Currency")
+    # amount = fields.Monetary("Amount")
 
+    #use this if like you name the field anything else rather than currency_id
+    my_currency_id = fields.Many2one("res.currency", string="(My Currency)", )
+    amount = fields.Monetary("Amount", currency_field="my_currency_id")
 
 class Student(models.Model):
     _name = 'wb.student'

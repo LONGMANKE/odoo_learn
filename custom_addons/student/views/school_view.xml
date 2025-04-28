@@ -5,9 +5,13 @@
             <field name="model">wb.school</field>
             <field name="arch" type="xml">
                 <tree>
-<!--               <tree editable="top">-->
+                    <!--               <tree editable="top">-->
                     <field name="id"/>
                     <field name="name"/>
+                    <field name="amount"/>
+<!--                    <field name="currency_id" invisible="1"/>-->
+                    <field name="my_currency_id" invisible="1"/>
+
                 </tree>
             </field>
         </record>
@@ -19,6 +23,8 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="amount"/>
+                            <field name="my_currency_id"/>
                             <field name="ref_field_id"/>
                             <field name="invoice_id"/>
                             <field name="invoice_user_id"/>
@@ -27,7 +33,7 @@
                             <field name="binary_field" filename="binary_file_name"/>
                             # field just need to store the file name
                             <field name="binary_file_name" invisible="1"/>
-<!--                            <field name="student_list" string="Student List (Current XYZ)"/>-->
+                            <!--                            <field name="student_list" string="Student List (Current XYZ)"/>-->
                         </group>
                     </group>
                 </form>
