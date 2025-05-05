@@ -26,6 +26,7 @@
                     <header>
                         <button name="custom_method" type="object" string="Custom Method"/>
                         <button name="duplicate_records" type="object" string="Duplicate Records(Create)"/>
+                        <button name="delete_records" type="object" string="Remove/Delete Method (Unlink)"/>
                     </header>
                     <group>
                         <group>
@@ -39,7 +40,7 @@
                                    placeholder="You can enter here current year fees"/>
                             <field name="discount_fees"/>
                             # when the field is not readonly and is stored and when i refresh it rewrites to the default
-<!--                            <field name="final_fees" readonly="0"/>-->
+                            <!--                            <field name="final_fees" readonly="0"/>-->
                             # works with readonly and the field saves the latest compute
                             <field name="final_fees" force_save="1"/>
                             <field name="roll_number" help="Please use here unique enrollment number"

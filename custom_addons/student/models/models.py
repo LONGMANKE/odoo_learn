@@ -37,6 +37,14 @@ class School(models.Model):
     my_currency_id = fields.Many2one("res.currency", string="(My Currency)")
     amount = fields.Monetary("Amount", currency_field="my_currency_id")
 
+    def unlink(self):
+        print("Unlink Method Call")
+        print(self)
+        rtn = super(School, self).unlink()
+        print(rtn)
+        print("Unlink Method finished")
+        return rtn
+
     # def create(self, vals):
     #     print(self)
     #     print(vals)
@@ -94,6 +102,13 @@ class School(models.Model):
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
+
+    def delete_records(self):
+        print(self)
+        school_id = self.env["wb.school"].browse(20)
+        print(school_id)
+        print(school_id.unlink())
+
 
     # The fields that do not copy are set to copy false individually
     def duplicate_records(self):
