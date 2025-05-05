@@ -37,6 +37,27 @@ class School(models.Model):
     my_currency_id = fields.Many2one("res.currency", string="(My Currency)" )
     amount = fields.Monetary("Amount", currency_field="my_currency_id")
 
+    # def create(self, vals):
+    #     print(self)
+    #     print(vals)
+    #     rtn = super(School, self).create(vals)
+    #     print(rtn)
+    #     return rtn
+
+    # With decorators
+    @api.model
+    # Creates like multiple records in one create.
+    @api.model_create_multi
+    # Creates like one record in one create.
+    @api.model_create_single
+    def create(self, vals):
+        print(self)
+        print(vals)
+        rtn = super(School, self).create(vals)
+        # Alternative
+        rtn = super().create(vals)
+        print(rtn)
+        return rtn
 class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
