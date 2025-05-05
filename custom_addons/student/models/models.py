@@ -95,9 +95,23 @@ class Student(models.Model):
     _name = 'wb.student'
     _description = 'This is a student profile'
 
+    # The fields that do not copy are set to copy false individually
+    def duplicate_records(self):
+        # print(self)
+        duplicate_record = self.copy({"joining_date": fields.Datetime.now()})
+        # print(duplicate_record)
+
+    @api.returns("self", lambda value: value.id)
+    def copy(self, default=None):
+        print(self)
+        print(default)
+        rtn = super(Student, self).copy(default=default)
+        print(rtn)
+        return rtn
+
     hobby_list = fields.Many2many("wb.hobby", "student_hobby_list_relation", "student_id", "hobby_id")
-    hobby_list_ids = fields.Many2many("wb.hobby"
-                                      )
+    hobby_list_ids = fields.Many2many("wb.hobby", String="Hobbies", help="Select hobby list for this student")
+
     # school_id = fields.Many2one("wb.school")
     # school_id = fields.Many2one("wb.school", "School Name")
     school_id = fields.Many2one(comodel_name="wb.school")

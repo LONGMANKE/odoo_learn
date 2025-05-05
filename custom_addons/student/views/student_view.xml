@@ -25,6 +25,7 @@
                 <form string="Student">
                     <header>
                         <button name="custom_method" type="object" string="Custom Method"/>
+                        <button name="duplicate_records" type="object" string="Duplicate Records(Create)"/>
                     </header>
                     <group>
                         <group>
