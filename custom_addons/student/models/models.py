@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models
 from odoo.exceptions import UserError
+
+from odoo import api, fields, models
+
 
 class School(models.Model):
     _name = "wb.school"
@@ -70,6 +72,20 @@ class School(models.Model):
     def custom_method(self):
         print("Custom method clicked")
         print(self)
+        # search(domain, limit, offset, order)
+        # [condition, more condition]
+
+        # this is a blank domain like to get all
+        # print(self.search([]))
+        print(self.search([], order="id desc"))
+
+        # print(self.search([], order="name"))
+        # print(self.search([], limit=5, offset=0))
+        # print(self.search([], limit=5, offset=1))
+        # print(self.env["wb.student"].search([]))
+        # print(self.search([("name", "ilike", "web")]))
+
+
         # Method 1
         # self.name = "Single update"
         # self.amount = 5000
@@ -105,7 +121,7 @@ class Student(models.Model):
 
     def delete_records(self):
         print(self)
-        school_id = self.env["wb.school"].browse([17,18,19,20,21])
+        school_id = self.env["wb.school"].browse([17, 18, 19, 20, 21])
         for school in school_id:
             if not school.exists():
                 raise UserError(f"Recordset is not available! {school}")
@@ -114,7 +130,6 @@ class Student(models.Model):
                 print("Instance or Recordset is available", school)
         print(school_id)
         print(school_id.unlink())
-
 
     # The fields that do not copy are set to copy false individually
     def duplicate_records(self):
