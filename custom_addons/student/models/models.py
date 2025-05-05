@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
-
+from odoo.exceptions import UserError
 
 class School(models.Model):
     _name = "wb.school"
@@ -105,7 +105,13 @@ class Student(models.Model):
 
     def delete_records(self):
         print(self)
-        school_id = self.env["wb.school"].browse(20)
+        school_id = self.env["wb.school"].browse([17,18,19,20,21])
+        for school in school_id:
+            if not school.exists():
+                raise UserError(f"Recordset is not available! {school}")
+                print("Instance or Recordset is not available", school)
+            else:
+                print("Instance or Recordset is available", school)
         print(school_id)
         print(school_id.unlink())
 
