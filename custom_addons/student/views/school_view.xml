@@ -20,6 +20,9 @@
             <field name="model">wb.school</field>
             <field name="arch" type="xml">
                 <form>
+                     <header>
+                        <button name="custom_method" type="object" string="Custom Method"/>
+                    </header>
                     <group>
                         <group>
                             <field name="name"/>
