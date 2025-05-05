@@ -22,7 +22,10 @@
             <field name="name">wb.student.form.view</field>
             <field name="model">wb.student</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Student">
+                    <header>
+                        <button name="custom_method" type="object" string="Custom Method"/>
+                    </header>
                     <group>
                         <group>
                             <field name="hobby_list"/>

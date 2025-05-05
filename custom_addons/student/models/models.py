@@ -45,11 +45,11 @@ class School(models.Model):
     #     return rtn
 
     # With decorators
-    @api.model
+    # @api.model
     # Creates like multiple records in one create.
     @api.model_create_multi
     # Creates like one record in one create.
-    @api.model_create_single
+    # @api.model_create_single
     def create(self, vals):
         print(self)
         print(vals)
@@ -136,6 +136,17 @@ class Student(models.Model):
 
     def json_data_store(self):
         self.school_data = {"name": self.name, "id": self.id, "fees": self.student_fees, "g": self.gender}
+
+    def custom_method(self):
+        print("Clicked")
+
+        data = [{"name": "Weblearns-1-Record"},
+                {"name": "Weblearns-2-Record"},
+                {"name": "Weblearns-3-Record"},
+                {"name": "Weblearns-4-Record"},
+                {"name": "Weblearns-5-Record"}]
+
+        self.env["wb.school"].create(data)
 
 
 class Hobby(models.Model):
