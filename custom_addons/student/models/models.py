@@ -17,7 +17,7 @@ class School(models.Model):
     # This will be stored in the table //brings also like the search by sales person in  the group by
     # invoice_user_id= fields.Many2one("res.users",  related="invoice_id.invoice_user_id", storable=True)
     invoice_date = fields.Date(related="invoice_id.invoice_date")
-    student_list = fields.One2many("wb.student", "school_id", string="Students", readonly=1,
+    student_list = fields.One2many("wb.student", "school_id", string="Students", readonly=True,
                                    help="This field is used to display related students list for this current school.")
 
     ref_field_id = fields.Reference(selection=[('wb.school', 'School'),
@@ -26,7 +26,7 @@ class School(models.Model):
                                                ('sales.order', 'Sale'),
                                                ('account.move', 'Invoice'),
                                                ('purchase.order', 'Purchase'),
-                                               ], string="reference", required=1,
+                                               ], string="reference",required=True,
                                     help="Please select records accordingly")  # we can use default
     binary_field = fields.Binary(string="Upload file", copy=False)
     binary_file_name = fields.Char("Binary Field Name")
@@ -37,7 +37,7 @@ class School(models.Model):
 
     # use this if like you name the field anything else rather than currency_id
     my_currency_id = fields.Many2one("res.currency", string="(My Currency)")
-    amount = fields.Monetary("Amount", currency_field="my_currency_id")
+    amount = fields.Monetary("Amount", currency_field="my_currency_id", default=0)
 
     def unlink(self):
         print("Unlink Method Call")
@@ -85,6 +85,54 @@ class School(models.Model):
         # print(self.env["wb.student"].search([]))
         # print(self.search([("name", "ilike", "web")]))
 
+        # [('1', '2', '3')]
+        # [
+        # ('field name', 'condition', 'field value'),
+        # ('field name', 'condition', 'field value'),
+        # ('field name', 'condition', 'field value')
+        # ]
+        # select * from school where amount > 1000;
+
+        # select * from school where amount =1000;
+        #
+        # records =self.search([("amount","=",2000)])
+        # self.print_table(records)
+        # records =self.search([("name","=","Web")])
+        # self.print_table(records)
+        # records =self.search([("name","=","web")])
+        # self.print_table(records)
+
+        # null is 0 so to avoid conflict we use this false
+        # records =self.search([("amount","=", False )])
+        # self.print_table(records)
+
+        # False/None mark as true :- 100 Specific value =100
+        # records = self.search([("amount", "=?", False)])
+        # self.print_table(records)
+        # >
+        # records = self.search([("amount", ">", 0)])
+        # self.print_table(records)
+
+        # >=
+        # records = self.search([("amount", ">=", -1)])
+        # self.print_table(records)
+
+        # <
+        # records = self.search([("amount", "<", 100)])
+        # self.print_table(records)
+
+        # <=
+        # records = self.search([("amount", "<=", 100)])
+        # self.print_table(records)
+
+        # # !=
+        # records = self.search([("amount", "!=", 100)])
+        # records = self.search([("name", "!=", "Web")])
+        # self.print_table(records)
+
+        # in
+        records = self.search([("name", "in", ("Web", "web", "Weblearns-3-Record"))])
+        self.print_table(records)
 
         # Method 1
         # self.name = "Single update"
@@ -105,6 +153,14 @@ class School(models.Model):
         # for rec in records:
         #     rec.write({"name": f"{rec.id}", "amount":2000})
         pass
+
+    def print_table(self, records):
+        print(f"Total Record Found:- {len(records)}")
+        print("ID       Name         Amount")
+        for rec in records:
+            print(f"{rec.id}         {rec.name}            {rec.amount}")
+            # print("")
+            # print("")
 
     def write(self, vals):
         print("Write method called")
@@ -146,7 +202,7 @@ class Student(models.Model):
         return rtn
 
     hobby_list = fields.Many2many("wb.hobby", "student_hobby_list_relation", "student_id", "hobby_id")
-    hobby_list_ids = fields.Many2many("wb.hobby", String="Hobbies", help="Select hobby list for this student")
+    hobby_list_ids = fields.Many2many("wb.hobby", help="Select hobby list for this student")
 
     # school_id = fields.Many2one("wb.school")
     # school_id = fields.Many2one("wb.school", "School Name")
@@ -176,7 +232,7 @@ class Student(models.Model):
     discount_fees = fields.Float("Discount")
     roll_number = fields.Integer("Enrollment NO", index=True)
     gender = fields.Selection(
-        [('male', 'Male'), ('female', 'Female')], required=1
+        [('male', 'Male'), ('female', 'Female')], required=True
     )
     advanced_gender = fields.Selection("_get_advanced_gender_list")
     vip_gender = fields.Selection(_get_vip_list, "VIP Gen")
@@ -184,7 +240,7 @@ class Student(models.Model):
     combobox = fields.Selection(selection=[('male', 'Male'), ('female', 'Female')],
                                 string="Combo Box")
 
-    is_default_demo = fields.Boolean(default=True, required=1)
+    is_default_demo = fields.Boolean(default=True)
     is_paid = fields.Boolean(string="Paid?", default=True, help="This is the field for paid")
 
     name = fields.Char("Name")

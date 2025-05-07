@@ -1,0 +1,69 @@
+<odoo>
+    <!-- Action: opens tree/form view of estate.property -->
+    <record id="action_estate_property" model="ir.actions.act_window">
+        <field name="name">Estate Properties</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_form_estate_property" model="ir.ui.view">
+        <field name="name">estate.property.form</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <form string="Estate Property">
+                <sheet>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="active"/>
+                                <field name="state"/>
+                                <field name="date_availability"/>
+                                <field name="best_offer"/>
+                                <field name="description"/>
+                                <field name="bedrooms"/>
+                                <field name="facades"/>
+                                <field name="garden"/>
+                                <field name="total_area"/>
+                            </group>
+                            <group>
+                                <field name="name"/>
+                                <field name="postcode"/>
+                                <field name="expected_price"/>
+                                <field name="selling_price"/>
+                                <field name="living_area"/>
+                                <field name="garage"/>
+                                <field name="garden_area"/>
+                                <field name="garden_orientation"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_tree_estate_property" model="ir.ui.view">
+        <field name="name">estate.property.tree</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <tree string="Estate Properties">
+                <field name="name"/>
+                <field name="expected_price"/>
+                <field name="selling_price"/>
+                <field name="bedrooms"/>
+                <field name="state"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    &lt;!&ndash; Menu Structure &ndash;&gt;-->
+    <!--    <menuitem name="Root" id="root_level"/>-->
+    <!--    <menuitem name="Estate" id="Second_level" parent="root_level"/>-->
+    <!--    <menuitem name="Estate Properties" id="Third_level" parent="Second_level" action="action_estate_property"/>-->
+</odoo>
