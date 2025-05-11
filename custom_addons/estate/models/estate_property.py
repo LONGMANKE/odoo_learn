@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields
+
 
 class RealEstate(models.Model):
     _name = 'estate.property'
@@ -8,7 +9,11 @@ class RealEstate(models.Model):
     name = fields.Char(default="House", required=True)
     description = fields.Text()
     postcode = fields.Char()
-    date_availability = fields.Date(string="Date Availability")
+
+    def _default_date(self):
+        return fields.Date.today()
+
+    date_availability = fields.Date(string="Date Availability", default=_default_date)
     expected_price = fields.Float()
     selling_price = fields.Float()
     bedrooms = fields.Integer()
@@ -28,11 +33,11 @@ class RealEstate(models.Model):
     active = fields.Boolean(default=True)
     state = fields.Selection([
         ('new', 'New'),
-        ('offer_received', 'Offer Received'),
-        ('offer_accepted', 'Offer Accepted'),
+        ('received', 'Offer Received'),
+        ('accepted', 'Offer Accepted'),
         ('sold', 'Sold'),
         ('cancelled', 'Cancelled')
-    ], default='new')
+    ], required=True, copy=False, default='new')
 
 #     value = fields.Integer()
 #     value2 = fields.Float(compute="_value_pc", store=True)
@@ -42,4 +47,3 @@ class RealEstate(models.Model):
 #     def _value_pc(self):
 #         for record in self:
 #             record.value2 = float(record.value) / 100
-

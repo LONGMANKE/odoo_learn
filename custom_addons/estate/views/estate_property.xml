@@ -9,7 +9,7 @@
     <!-- Form View -->
     <record id="view_form_estate_property" model="ir.ui.view">
         <field name="name">estate.property.form</field>
-        <field name="model">estate.property</field>
+        <field name="model">estate.property</field>f
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <sheet>
